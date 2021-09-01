@@ -60,3 +60,21 @@ int LNext(List *plist, LData *pdata)
     *pdata = plist->cur->data;
     return TRUE;
 }
+
+LData LRemove(List *plist)
+{
+    Node *rpos = plist->cur;  //소멸 대상의 주소 값을 rpos에 저장
+    LData rdata = rpos->data; //소멸 대상의 데이터를 rdata에 저장
+
+    plist->before->next = plist->cur->next;
+    plist->cur = plist->before;
+
+    free(rpos);
+    (plist->numOfData)--;
+    return rdata;
+}
+
+int LCount(List *plist)
+{
+    return plist->numOfData;
+}
