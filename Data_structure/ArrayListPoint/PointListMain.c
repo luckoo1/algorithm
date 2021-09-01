@@ -27,7 +27,10 @@ int main(void)
     SetPointPos(ppos, 3, 2);
     LInsert(&list, ppos);
 
-    printf("현재 데이터의 수 : %d\n", LCount(&list));
+    printf("The number of data : %d\n", LCount(&list));
+
+    //data 출력
+
     if (LFirst(&list, &ppos))
     {
         ShowPointPos(ppos);
@@ -38,6 +41,7 @@ int main(void)
         }
     }
 
+    // xpos가 2인 모든 데이터 삭제
     compPos.xpos = 2;
     compPos.ypos = 0;
 
