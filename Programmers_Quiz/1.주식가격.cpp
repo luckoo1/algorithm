@@ -1,3 +1,4 @@
+//https://programmers.co.kr/learn/courses/30/lessons/42584
 #include <string>
 #include <vector>
 
@@ -29,9 +30,4 @@ vector<int> solution(vector<int> prices)
 int main()
 {
     vector<int> v{1, 2, 99, 2, 3};
-    vector<int> ans = solution(v);
-    for (int i = 0; i < ans.size(); i++)
-    {
-        printf("%d ", ans[i]);
-    }
 }

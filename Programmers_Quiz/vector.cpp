@@ -119,21 +119,21 @@ int main()
     }
     printf("\n\n");
 
-    v.erase(v.begin());
+    v.erase(v.begin()); //맨 앞에것만
     for (int i = 0; i < v.size(); i++)
     {
         printf("%d ", v[i]);
     }
     printf("\n\n");
 
-    v1.erase(v1.begin() + 1);
+    v1.erase(v1.begin() + 1); //2번째 것만 삭제
     for (int i = 0; i < v1.size(); i++)
     {
         printf("%d ", v1[i]);
     }
     printf("\n\n");
 
-    v2.erase(v2.begin() + 1, v2.begin() + 3);
+    v2.erase(v2.begin() + 1, v2.begin() + 3); //2번째부터 4번째까지 삭제
     for (int i = 0; i < v2.size(); i++)
     {
         printf("%d ", v2[i]);

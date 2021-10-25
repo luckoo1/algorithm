@@ -1,3 +1,7 @@
+//https://programmers.co.kr/learn/courses/30/lessons/42584
+//좋은설명
+//https://girawhale.tistory.com/7
+
 #include <iostream>
 #include <vector>
 #include <stack>
