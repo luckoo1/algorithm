@@ -11,7 +11,7 @@ int main()
 
     // 1.요소 넣기
     // 1_1. pair 만들어서 넣기
-    pair<string, string> p("mob", "월요일");
+    pair<string, string> p("mon", "월요일");
     m.insert(p);
 
     // 1_2. make_pair => pair를 만들어 달라는 함수
@@ -46,12 +46,19 @@ int main()
     map<string, int> m = {{"mon", 1}, {"tue", 2}};
     //원래 반복자를 사용해야한다.
     map<string, int>::iterator it;
+
+    //범위기반은 포인터다, auto로 쉽게 해결가능하다
     for (it = m.begin(); it != m.end(); it++)
         cout << it->first << ' ' << it->second << '\n';
 
-    //auto로 쉽게 해결
-    for (auto it = m.begin(); it != m.end(); it++)
-        cout << it->first << ' ' << it->second << '\n';
+    for (auto iter = m.begin(); iter != m.end(); iter++)
+        cout << iter->first << ' ' << iter->second << '\n';
+
+    //index기반은 멤버데이터
+    for (auto iter : m)
+    {
+        cout << iter.first << " " << iter.second << endl;
+    }
 }
 //-----------------------------------------------------------------------------------
 //map 인자 찾기
@@ -62,7 +69,6 @@ using namespace std;
 
 int main()
 {
-
     map<string, string> m = {{"mon", "월요일"}, {"tue", "화요일"}};
 
     std::string s = m["sun"]; //1. m map에 "sun"이라는 key값은 없다. 에러는 안뜬다.
@@ -99,3 +105,21 @@ int main()
     //p는 map의 요소를 가리키는 반복자
     //map의 반복자 : "pair"를 가리키는 포인터로 생각
 }
+//-----------------------------------------------------------------------------------
+//map 인자 삭제
+/*
+1. 특정 위치의 요소 삭제
+m.erase(m.begin()+2);
+
+
+2. key값을 기준으로 요소 삭제
+m.erase("Alice");
+ 
+3. map의 모든 요소 삭제
+erase 함수로 모든 요소 삭제하기 (map의 begin부터 end까지)
+m.erase(m.begin(), m.end());
+
+4.찾아서 삭제
+m.erase(m.find("f"));
+
+*/
