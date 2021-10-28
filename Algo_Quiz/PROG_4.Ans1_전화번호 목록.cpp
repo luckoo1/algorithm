@@ -1,4 +1,9 @@
-//깡코딩 : 시간초과
+/*
+문제를 잘 파악하는 것에 대한 중요성을 한번더 생각해볼 수 있다.
+sort한 다음에
+i번째것과 i+1번째것만 비교해보면 된다
+i+2, i+3째는 볼 필요도 없다.
+*/
 #include <vector>
 #include <string>
 #include <algorithm>
@@ -11,17 +16,11 @@ bool solution(vector<string> phone_book)
     //////////////////////////////////////////////////////////////////
     sort(phone_book.begin(), phone_book.end());
 
-    for (int i = 0; i < phone_book.size(); i++)
+    for (int i = 0; i < phone_book.size() - 1; i++)
     {
-        int length = phone_book[i].size();
-
-        for (int j = i + 1; j < phone_book.size(); j++)
+        if (phone_book[i] == phone_book[i + 1].substr(0, phone_book[i].size()))
         {
-            if (phone_book[i].size() == phone_book[j].size())
-                continue;
-
-            if (phone_book[i] == phone_book[j].substr(0, length)) //substr을 사용했다.
-                return false;
+            return false;
         }
     }
 

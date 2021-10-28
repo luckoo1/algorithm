@@ -6,7 +6,6 @@ using namespace std;
 
 int main()
 {
-
     map<string, string> m; //pair <string,string> 보관
 
     // 1.요소 넣기
