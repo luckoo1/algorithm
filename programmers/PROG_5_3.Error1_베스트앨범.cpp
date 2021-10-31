@@ -4,6 +4,12 @@
 #include <map>
 #include <algorithm>
 
+/*
+vector<string> c{"a", "a", "a", "b", "c"};
+vector<int> d{2, 2, 2, 3, 4};
+반례가 있다.
+*/
+
 using namespace std;
 
 vector<int> solution(vector<string> genres, vector<int> plays)
