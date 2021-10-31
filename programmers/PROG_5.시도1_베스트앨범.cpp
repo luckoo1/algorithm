@@ -16,7 +16,7 @@ vector<int> solution(vector<string> genres, vector<int> plays)
         hash_map[genres[i]].push_back(plays[i]);
     }
 
-    //각 key에 value "맨뒤에 value들의 total"을 넣었다.
+    //각 key에 value 맨뒤에 value들의 합을 넣었다.
     for (auto iter = hash_map.begin(); iter != hash_map.end(); iter++)
     {
         int total = 0;
@@ -52,38 +52,47 @@ vector<int> solution(vector<string> genres, vector<int> plays)
         copy_hash_map.erase(temp_gerne);
     }
 
+    //각 key의 value의 total을 제거해서 원복함
     for (auto iter = hash_map.begin(); iter != hash_map.end(); iter++)
     {
-        //각 key의 value의 total을 제거해서 원복함
         iter->second.pop_back();
-        //각 key의 value들을 크기 순대로 정렬
+    }
+
+    //각 key의 value들을 크기 순대로 정렬
+    for (auto iter = hash_map.begin(); iter != hash_map.end(); iter++)
+    {
         sort(iter->second.begin(), iter->second.end());
         reverse(iter->second.begin(), iter->second.end());
-        //제일 큰거 2개만 남기고 pop_back()을 했다.
-        while (iter->second.size() > 2)
+    }
+
+    vector<int> sorted_plays; //sorted_gernes에는 total순대로 들어가있다.
+
+    //sorted_plays에 각 key마다 제일 큰 play의 길이 2개를 선정해서 넣었다
+    for (int i = 0; i < sorted_gernes.size(); i++)
+    {
+        int first = hash_map[sorted_gernes[i]][0];
+        sorted_plays.push_back(first);
+        if (hash_map[sorted_gernes[i]].size() == 1) //play가 하나면 1개만 넣게했다.
         {
-            iter->second.pop_back();
+            continue;
         }
+        int second = hash_map[sorted_gernes[i]][1];
+        sorted_plays.push_back(second);
     }
 
     vector<int> ans;
-    bool check[10001] = {false};
-
-    for (int i = 0; i < sorted_gernes.size(); i++)
+    //sorted_plays는 각 key마다 제일 큰 play의 길이 넣은 곳이다
+    for (int i = 0; i < sorted_plays.size(); i++)
     {
-        vector<int> big_play = hash_map[sorted_gernes[i]];
+        int length = sorted_plays[i];
 
-        for (int j = 0; j < big_play.size(); j++)
+        int j = plays.size();
+
+        for (int j = 0; j < plays.size(); j++)
         {
-            int length = big_play[j];
-            for (int k = 0; k < plays.size(); k++)
+            if (plays[j] == length)
             {
-                if (length == plays[k] && check[k] == false)
-                {
-                    ans.push_back(k);
-                    check[k] = true;
-                    break;
-                }
+                ans.push_back(j); //idex를 넣기
             }
         }
     }
@@ -102,4 +111,5 @@ int main()
     cout << "\n";
     for (auto n : answer)
         cout << n << " ";
+    cout << endl;
 }
