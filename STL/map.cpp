@@ -122,3 +122,67 @@ m.erase(m.begin(), m.end());
 m.erase(m.find("f"));
 
 */
+//해당key에 value삭제
+#include <map>
+#include <iostream>
+int main()
+{
+    std::multimap<int, std::string> c = {{1, "one"}, {2, "two"}, {3, "three"}, {4, "four"}, {5, "five"}, {6, "six"}};
+
+    // erase all odd numbers from c
+    std::multimap<int, std::string>::iterator it;
+    for (it = c.begin(); it != c.end();)
+    {
+        if (it->first % 2 != 0)
+            it = c.erase(it);
+        else
+            ++it;
+    }
+
+    for (auto &p : c)
+    {
+        std::cout << p.second << ' ';
+    }
+}
+
+//-----------------------------------------------------------------------------------
+//하나의 key에 vector를 넣어서 여러 value넣기
+#include <iostream>
+#include <string>
+#include <vector>
+#include <map>
+using namespace std;
+
+vector<int> solution(vector<string> genres, vector<int> plays)
+{
+    vector<int> ans;
+    map<string, vector<int>> hash_map;
+
+    for (int i = 0; i < genres.size(); i++)
+    {
+        hash_map[genres[i]].push_back(plays[i]);
+    }
+
+    for (auto iter = hash_map.begin(); iter != hash_map.end(); iter++)
+    {
+        cout << iter->first << endl;                  //iter->first는 string
+        for (int i = 0; i < iter->second.size(); i++) //iter->second는 vector
+        {
+            cout << iter->second[i] << " ";
+        }
+        cout << endl;
+    }
+
+    return ans;
+}
+
+int main()
+{
+    vector<string> a{"classic", "pop", "classic", "classic", "pop"};
+    vector<int> b{500, 600, 150, 800, 2500};
+
+    vector<int> answer = solution(a, b);
+    cout << "\n";
+    for (auto n : answer)
+        cout << n << endl;
+}
