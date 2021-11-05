@@ -14,29 +14,25 @@ int solution(int bridge_length, int weight, vector<int> truck_weights)
 
     while (finish_truck != t_num_truck) //트럭이 다 건넘
     {
-        // cout << "time : " << time << endl;
-        // for (int i = 0; i < step.size(); i++)
-        // {
-        //     cout << step[i].first << "," << step[i].second << endl;
-        // }
-
-        if (!step.empty())
+        //다리위에 트럭 한칸씩 전진
+        if (!step.empty()) //다리가 비어있지 않으면
         {
             for (int i = 0; i < step.size(); i++)
             {
-                step[i].second += 1;
+                step[i].second += 1; //한칸씩 전진
             }
         }
 
-        for (int i = 0; i < step.size(); i++)
+        //전진하고 난뒤에 다 건넌거 있는가 확인후 다리위에서 삭제
+        if (!step.empty())
         {
-            if (step[i].second > bridge_length)
+            if (step[0].second > bridge_length) //만약 다 건넜다면
             {
-                step.erase(step.begin());
-                finish_truck += 1;
+                step.erase(step.begin()); //다리위에서 삭제하고
+                finish_truck += 1;        //다건넌 트럭수 1더하기
             }
         };
-
+        //다리위 무게 측정
         int temp_sum = 0;
         for (int i = 0; i < step.size(); i++)
         {
@@ -45,10 +41,11 @@ int solution(int bridge_length, int weight, vector<int> truck_weights)
 
         bridge_weight = temp_sum;
 
+        //다리에 자리가 있고, 들어가야할 트럭이 있나 확인
         if (step.size() < bridge_length && !truck_weights.empty())
         {
             int first_truck = truck_weights.front();
-
+            //들어가야할 트럭이 들어가면 다리위 무게가 초과되지 않는지 확인
             if (bridge_weight + first_truck <= weight)
             {
                 truck_weights.erase(truck_weights.begin());
@@ -60,22 +57,4 @@ int solution(int bridge_length, int weight, vector<int> truck_weights)
     }
 
     return time;
-}
-
-int main()
-{
-    int a1 = 2;
-    int b1 = 10;
-    vector<int> c1 = {7, 4, 5, 6};
-
-    int a2 = 100;
-    int b2 = 100;
-    vector<int> c2 = {10, 10, 10, 10, 10, 10, 10, 10, 10, 10};
-
-    int a3 = 100;
-    int b3 = 100;
-    vector<int> c3 = {10};
-
-    int ans = solution(a1, b1, c1);
-    cout << ans;
 }
