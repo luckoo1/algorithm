@@ -87,68 +87,7 @@ int main()
 }
 
 //////////////////////////////////////////////////////////////////////////
-#include <iostream>
-#include <queue>
-using namespace std;
 
-int main()
-{
-
-    /*
-    make_heap(b,e)
-    구간 [b,e)의 순차열을 힙 구조로 만듦
-    */
-
-    vector<int> v = {10, 20, 30, 40, 50, 60};
-    // 1. 최대 heap 생성
-    make_heap(v.begin(), v.end());
-    // v = {60,50,30,40,20,10}
-
-    // 2. 최소 heap 생성
-    make_heap(v.begin(), v.end(), greater<int>());
-    // v= {10,20,50,30,40,60}
-
-    /*
-    push_heap(b,e)
-    원소가 추가된 상태에서 사용
-    추가된 구간 [b,e) heap을 교환하여 heap을 유지함.
-    일반적으로 push_back()과 함께 사용
-    */
-
-    //위의 예제 수행 후
-    v.push_back(35);
-    // 마지막에 단순 원소 추가
-    // v = {60,50,30,40,20,10,35}
-    push_heap(v.begin(), v.end());
-    // v = {60,50,35,40,20,10,30}
-    // heap 형태를 재계산
-
-    /*
-    pop_heap(b,e)
-    root node를 (논리적)제거(제일 마지막으로 이동)
-    원리
-    root node와 마지막 node를 교환
-    heap을 유지하도록 교환 반복
-    */
-    vector<int> v = {10, 20, 30, 40, 50, 60};
-    make_heap(v.begin(), v.end());
-    // v = {60,50,30,40,20,10}
-    pop_heap(v.begin(), v.end());
-    // v= {50,40,30,10,20,60}
-
-    /*
-    sort_heap(b,e)
-    구간 [b,e)를 heap 정렬
-    구간 [b,e)가 heap 구조여야 함
-    */
-    vector<int> v = {10, 20, 30, 40, 50, 60};
-    make_heap(v.begin(), v.end());
-    // v = {60,50,30,40,20,10}
-    sort_heap(v.begin(), v.end());
-    // v= {10,20,30,40,50,60}
-}
-
-//////////////////////////////////////////////////////////////////////////
 //기준점 만들어 보기
 
 #include <iostream>
@@ -253,3 +192,68 @@ int main()
 
     return 0;
 }
+
+//////////////////////////////////////////////////////////////////////////
+#include <algorithm>
+#include <functional>
+#include <iostream>
+#include <string_view>
+#include <vector>
+
+void print(std::string_view text, std::vector<int> const &v = {})
+{
+    std::cout << text << ": ";
+    for (const auto &e : v)
+        std::cout << e << ' ';
+    std::cout << '\n';
+}
+
+int main()
+{
+    print("Max heap");
+
+    std::vector<int> v{3, 2, 4, 1, 5, 9};
+    print("initially, v", v);
+
+    std::make_heap(v.begin(), v.end());
+    print("after make_heap, v", v);
+
+    std::pop_heap(v.begin(), v.end());
+    print("after pop_heap, v", v);
+
+    auto top = v.back();
+    v.pop_back();
+    print("former top element", {top});
+    print("after removing the former top element, v", v);
+
+    print("\nMin heap");
+
+    std::vector<int> v1{3, 2, 4, 1, 5, 9};
+    print("initially, v1", v1);
+
+    std::make_heap(v1.begin(), v1.end(), std::greater<>{});
+    print("after make_heap, v1", v1);
+
+    std::pop_heap(v1.begin(), v1.end(), std::greater<>{});
+    print("after pop_heap, v1", v1);
+
+    auto top1 = v1.back();
+    v1.pop_back();
+    print("former top element", {top1});
+    print("after removing the former top element, v1", v1);
+}
+/*
+Max heap:
+initially, v: 3 2 4 1 5 9 
+after make_heap, v: 9 5 4 1 2 3 
+after pop_heap, v: 5 3 4 1 2 9 
+former top element: 9
+after removing the former top element, v: 5 3 4 1 2 
+ 
+Min heap:
+initially, v1: 3 2 4 1 5 9 
+after make_heap, v1: 1 2 4 3 5 9 
+after pop_heap, v1: 2 3 4 9 5 1 
+former top element: 1
+after removing the former top element, v1: 2 3 4 9 5
+*/
