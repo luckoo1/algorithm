@@ -200,3 +200,29 @@ int main()
         printf("%d ", v[i]);
     }
 }
+//////////////////////////////////////////////////////////////////////////
+//vector 복사
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+int main()
+{
+    vector<int> a1{1, 5, 2, 6, 3, 7, 4};
+
+    vector<int> ans = {a1.begin(), a1.begin() + 2};
+
+    for (int i = 0; i < ans.size(); i++)
+    {
+        cout << ans[i] << " ";
+    }
+    cout << endl;
+
+    vector<int> ans1 = {a1.begin(), a1.end()};
+
+    for (int i = 0; i < ans1.size(); i++)
+    {
+        cout << ans1[i] << " ";
+    }
+    cout << endl;
+}
