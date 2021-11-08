@@ -20,6 +20,7 @@ int main()
 
     //set size확인
     cout << "Set size : " << setnum.size() << endl; //중복이 없어서 4가 나온다.
+    //4
 
     //set 출력해보기
     cout << "Set : ";
@@ -28,6 +29,7 @@ int main()
         cout << *it << " ";
     }
     cout << "\n";
+    //3 4 5 7
 
     //set 요소 찾기
     //find의 Return value
@@ -39,12 +41,14 @@ int main()
 
     if (search != setnum.end())
     {
-        std::cout << "Found " << (*search) << '\n';
+        std::cout << "Found : " << (*search) << '\n';
     }
     else
     {
         std::cout << "Not found\n";
     }
+    //Found : 3
+
 #if 0
     //아래코드 모르겠다 ㅠㅠ
     //못찾아서 쓰레기 코드 뱉는건가..?
@@ -59,4 +63,5 @@ int main()
     {
         cout << *it << " ";
     }
+    //4 5 7
 }
