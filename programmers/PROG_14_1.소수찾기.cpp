@@ -31,6 +31,18 @@ void dfs(int dep, int size)
     }
 }
 
+bool check_prime(int num)
+{
+    if (num < 2)
+        return false;
+    for (int i = 2; i <= sqrt(num); i++)
+    {
+        if (num % i == 0)
+            return false;
+    }
+    return true;
+}
+
 int solution(string numbers)
 {
     for (int i = 0; i < numbers.size(); i++)
@@ -41,27 +53,17 @@ int solution(string numbers)
         dfs(0, i);
     }
 
-    for (int i = 0; i < number.size(); i++)
-    {
-        cout << number[i] << " ";
-    }
-    cout << endl;
-
-    // unique(number.begin(), number.end());
-
-    // for (int i = 0; i < number.size(); i++)
-    // {
-    //     cout << number[i] << " ";
-    // }
-    // cout << endl;
-
+    sort(number.begin(), number.end());
     number.erase(unique(number.begin(), number.end()), number.end());
 
+    int ans = 0;
     for (int i = 0; i < number.size(); i++)
     {
-        cout << number[i] << " ";
+        if (check_prime(number[i]) == true)
+            ans++;
     }
-    cout << endl;
+
+    return ans;
 }
 
 int main()
