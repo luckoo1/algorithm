@@ -7,20 +7,20 @@ using namespace std;
 int solution(vector<int> people, int limit)
 {
     int answer = 0;
-    int head = 0;
-    int tail = people.size() - 1;
+    int left_idx = 0;
+    int right_idx = people.size() - 1;
     sort(people.begin(), people.end());
 
-    while (head <= tail)
+    while (left_idx <= right_idx)
     {
-        if (people[head] + people[tail] <= limit)
+        if (people[left_idx] + people[right_idx] <= limit)
         {
-            head++;
-            tail--;
+            left_idx++;
+            right_idx--;
         }
         else
         {
-            tail--;
+            right_idx--;
         }
         answer++;
     }

@@ -5,38 +5,60 @@ using namespace std;
 
 int solution(string name)
 {
-    string A = "";
+    string temp_string = "";
     for (int i = 0; i < name.size(); i++)
-        A += 'A';
+        temp_string += 'A';
 
     int idx = 0;
     int move_cnt = 0;
-    while (1)
+    int cnt = 0;
+    while (true)
     {
-        int up_cnt = -(A[idx] - name[idx]);
-        int down_cnt = A[idx] - name[idx] + 26;
+        if (temp_string == name)
+            break;
+
+        for (int i = 0; i < name.size(); i++)
+        {
+            int right_idx = (idx + i) % name.size();
+            if (temp_string[right_idx] != name[right_idx])
+            {
+                idx = right_idx;
+                move_cnt += i;
+                break;
+            }
+            //cout << "right_idx : " << right_idx << endl;
+            int left_idx = idx - i;
+            if (left_idx < 0)
+                left_idx += name.size();
+            //cout << "left_idx : " << left_idx << endl;
+            if (temp_string[(left_idx) % name.size()] != name[(left_idx) % name.size()])
+            {
+                idx = left_idx;
+                move_cnt += i;
+                break;
+            }
+        }
+        int up_cnt = -(temp_string[idx] - name[idx]);
+        int down_cnt = temp_string[idx] - name[idx] + 26;
 
         if (up_cnt >= down_cnt)
             move_cnt += down_cnt;
         else if (up_cnt < down_cnt)
             move_cnt += up_cnt;
 
-        A[idx] = name[idx];
-
-        if (A == name)
-            break;
-
-        move_cnt++;
+        temp_string[idx] = name[idx];
+        //cout << temp_string << " " << idx << endl;
     }
+
+    return move_cnt;
 }
 int main()
 {
-    // int a1 = -('A' - 'Z');
-    // int b1 = 'A' - 'Y' + 26;
-    string a1 = "JEROEN";
-    string b1 = "AZ";
+    string a = "JEROEN";
+    string b = "JAZ";
+    string c = "AABAAB";
 
-    int ans = solution(b1);
+    int ans = solution(b);
 
     cout << ans;
 }
