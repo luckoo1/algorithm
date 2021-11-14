@@ -45,6 +45,7 @@ void dfs(int dep, string begin, string target, vector<string> words)
             check[i] = true;
             begin = words[i]; //이걸하면 왜 틀릴까...???
             dfs(dep + 1, begin, target, words);
+            //begin이 바뀌자나 그럼 다음 for문돌때 diff_one(begin, words[i])여기서 이상해지는거지
             check[i] = false;
         }
     }
