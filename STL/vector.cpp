@@ -65,6 +65,7 @@ vector<int> v(5);                             //0이 5개
 vector<int> v1(5, 2);                         //2가 5개
 vector<vector<int>> v2(4, vector<int>(5));    //0이 5개 들어간 vector가 4개
 vector<vector<int>> v3(4, vector<int>(5, 3)); //3이 5개 들어간 vector가 4개
+vector<vector<int>> v4(4);                    //vector<int> 4개
 
 int main()
 {
