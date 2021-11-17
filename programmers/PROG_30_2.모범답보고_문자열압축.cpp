@@ -8,11 +8,14 @@ int solution(string s)
 
     int answer = s.size();
 
-    for (int i = 1; i <= s.size(); i++)
+    for (int i = 1; i <= s.size() / 2; i++)
     {
         string cut_string = s.substr(0, i);
         string temp_ans_string = "";
         int cnt = 1;
+        //j < s.size()해서 틀렸었음
+        //<=해서 if (cut_string == s.substr(j, i))에서
+        //false가 나게 해서 최종 마무리로 다 하는 듯
         for (int j = i; j <= s.size(); j += i)
         {
             if (cut_string == s.substr(j, i))
