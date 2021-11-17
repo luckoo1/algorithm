@@ -17,6 +17,7 @@ int main()
     m.insert(make_pair("tue", "화요일"));
 
     // 1_3. emplace
+    //이거하니깐 또 emplace사용시 안들어가지고 처음것이 유지되는 듯
     m.emplace("wed", "수요일");
 
     // 1_4. [] 연산자 사용 =>key 값으로 value 를 저장=> 가장 널리 사용
