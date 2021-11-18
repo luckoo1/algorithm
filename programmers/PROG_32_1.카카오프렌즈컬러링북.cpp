@@ -1,6 +1,5 @@
 #include <vector>
 #include <queue>
-#include <st
 #include <iostream>
 using namespace std;
 //문제에서 전역변수를 함수안에서 초기화 하라는게 있어서 check를 solution함수내에서 초기화 했다.
