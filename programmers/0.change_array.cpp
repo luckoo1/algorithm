@@ -4,7 +4,7 @@ using namespace std;
 
 int main()
 {
-    string a = "[[1,1,2,2],[1,2,2,3],[2,1,3,2],[2,2,3,3]]";
+    string a = [ " ABCFG ", " AC ", " CDE ", " ACDE ", " BCFG ", " ACDEH " ];
     for (int i = 0; i < a.size(); i++)
     {
         if (a[i] == '[')
