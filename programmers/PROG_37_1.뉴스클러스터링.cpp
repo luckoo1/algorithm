@@ -141,16 +141,6 @@ int solution(string str1, string str2)
         str2_map[cut_str2[i]] += 1;
     }
 
-    // for (auto iter = str1_map.begin(); iter != str1_map.end(); iter++)
-    // {
-    //     cout << iter->first << " " << iter->second << endl;
-    // }
-    // cout << endl;
-    // for (auto iter = str2_map.begin(); iter != str2_map.end(); iter++)
-    // {
-    //     cout << iter->first << " " << iter->second << endl;
-    // }
-    // cout << endl;
     int cnt_gyo_jiphap = 0;
     int cnt_hap_jiphap = 0;
 
@@ -177,25 +167,10 @@ int solution(string str1, string str2)
     cnt_hap_jiphap += union_str1;
     cnt_hap_jiphap += union_str2;
 
-    // cout << cnt_gyo_jiphap << endl;
-    // cout << cnt_hap_jiphap << endl;
-    // cout << endl;
-    // for (int i = 0; i < cut_str1.size(); i++)
-    // {
-    //     if (check1[i] == 0)
-    //     {
-    //         cnt_hap_jiphap += str1_map[cut_str1[i]];
-    //     }
-    // }
-
-    // for (int i = 0; i < cut_str2.size(); i++)
-    // {
-    //     if (check2[i] == 0)
-    //     {
-    //         cnt_hap_jiphap += str2_map[cut_str2[i]];
-    //     }
-    // }
-
+    /*
+    double temp = cnt_gyo_jiphap / cnt_hap_jiphap;
+    해도 틀린다.
+    */
     double temp = (double)cnt_gyo_jiphap / (double)cnt_hap_jiphap;
     int ans = temp * 65536;
 
@@ -205,7 +180,7 @@ int solution(string str1, string str2)
 int main()
 {
     string a1 = "FRANCE";
-    string a2 = "frenchchch";
+    string a2 = "french";
     string b1 = "aa1+aa2";
     string b2 = "AAAA12";
 
