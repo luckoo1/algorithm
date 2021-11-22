@@ -187,3 +187,58 @@ int main()
     for (auto n : answer)
         cout << n << endl;
 }
+//-----------------------------------------------------------------------------------
+//key유무 확인
+#include <iostream>
+#include <map>
+
+using std::cin;
+using std::cout;
+using std::endl;
+using std::map;
+using std::string;
+
+int main()
+{
+    string key_to_find;
+    std::map<string, string> lang_map = {
+        {
+            "j",
+            "Julia",
+        },
+        {
+            "p",
+            "Python",
+        },
+        {
+            "m",
+            "MATLAB",
+        },
+        {
+            "o",
+            "Octave",
+        },
+        {
+            "s",
+            "Scala",
+        },
+        {
+            "l",
+            "Lua",
+        }};
+
+    for (const auto &[key, value] : lang_map)
+    {
+        cout << key << " : " << value << endl;
+    }
+
+    cout << "Enter the key to search for: ";
+    cin >> key_to_find;
+
+    if (lang_map.find(key_to_find) != lang_map.end())
+    {
+        cout << "Key Exists!" << endl;
+    }
+
+    return EXIT_SUCCESS;
+}
