@@ -187,26 +187,3 @@ int main()
     int ans = solution(a1, a2);
     cout << ans;
 }
-
-/*
-    //같은 원소가 뭐가 있는지 확인해보기
-    vector<string> same;
-    vector<string> copy_cut_str1{cut_str1.begin(), cut_str1.end()};
-    vector<string> copy_cut_str2{cut_str2.begin(), cut_str2.end()};
-    sort(copy_cut_str1.begin(), copy_cut_str1.end());
-    sort(copy_cut_str2.begin(), copy_cut_str2.end());
-    copy_cut_str1.erase(unique(copy_cut_str1.begin(), copy_cut_str1.end()), copy_cut_str1.end());
-    copy_cut_str2.erase(unique(copy_cut_str2.begin(), copy_cut_str2.end()), copy_cut_str2.end());
-
-    for (int i = 0; i < copy_cut_str1.size(); i++)
-    {
-        for (int j = 0; j < copy_cut_str2.size(); j++)
-        {
-            if (copy_cut_str1[i] == copy_cut_str2[j])
-            {
-                same.push_back(copy_cut_str1[i]);
-                break;
-            }
-        }
-    }
-*/
