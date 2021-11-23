@@ -23,13 +23,18 @@ int solution(string str1, string str2)
     int intersection_count = 0;
     int union_count = 0;
 
-    for (auto &p : hash1)
+    //여기서 교집합수는 끝남
+    for (auto p : hash1)
+    {
         intersection_count += min(p.second, hash2[p.first]);
+    }
 
-    for (auto &p : hash1)
+    for (auto p : hash1)
+    {
         hash2[p.first] = max(hash2[p.first], p.second);
+    }
 
-    for (auto &p : hash2)
+    for (auto p : hash2)
         union_count += p.second;
 
     if (union_count == 0 && intersection_count == 0)
@@ -47,3 +52,16 @@ int main()
     int ans = solution(a1, a2);
     cout << ans;
 }
+
+/*
+for (auto p : hash1)
+{
+    cout << p.first << " " << p.second << endl;
+}
+cout << endl;
+
+for (auto p : hash2)
+{
+    cout << p.first << " " << p.second << endl;
+}
+*/

@@ -44,18 +44,22 @@ using namespace std;
 int main()
 {
     map<string, int> m = {{"mon", 1}, {"tue", 2}};
-    //원래 반복자를 사용해야한다.
+    //1.원래 반복자를 사용해야한다.
     map<string, int>::iterator it;
-
-    //범위기반은 포인터다, auto로 쉽게 해결가능하다
     for (it = m.begin(); it != m.end(); it++)
         cout << it->first << ' ' << it->second << '\n';
 
+    //2.범위기반은 포인터다, auto로 쉽게 해결가능하다
     for (auto iter = m.begin(); iter != m.end(); iter++)
         cout << iter->first << ' ' << iter->second << '\n';
 
-    //index기반은 멤버데이터
+    //3.index기반은 멤버데이터
+    //iter->first하면 error
     for (auto iter : m)
+    {
+        cout << iter.first << " " << iter.second << endl;
+    }
+    for (auto &iter : m)
     {
         cout << iter.first << " " << iter.second << endl;
     }
