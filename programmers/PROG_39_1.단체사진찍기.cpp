@@ -2,7 +2,6 @@
 #include <vector>
 #include <iostream>
 using namespace std;
-// 전역 변수를 정의할 경우 함수 내에 초기화 코드를 꼭 작성해주세요.
 
 int ans;
 int abs(int x)
@@ -21,7 +20,7 @@ bool check_distance(vector<char> temp_ans, vector<string> data)
         char a = data[i][0];
         char b = data[i][2];
         char rule = data[i][3];
-        int dist = data[i][4] - 48;
+        int dist = data[i][4] - 48; //여기도 실수Point
         int where_a;
         int where_b;
         for (int j = 0; j < temp_ans.size(); j++)
@@ -31,12 +30,6 @@ bool check_distance(vector<char> temp_ans, vector<string> data)
             else if (temp_ans[j] == b)
                 where_b = j;
         }
-        // for (auto n : temp_ans)
-        // {
-        //     cout << n << " ";
-        // }
-        // cout << endl;
-        // cout << where_a << " " << where_b << endl;
 
         if (rule == '=')
         {
@@ -81,7 +74,6 @@ void dfs(int dep, vector<char> &people, vector<int> &check, vector<char> &temp_a
 
 int solution(int n, vector<string> data)
 {
-    //vector<char> people{'N', 'A', 'F'};
     vector<char> people{'A', 'C', 'F', 'J', 'M', 'N', 'R', 'T'};
     vector<int> check(people.size(), 0);
     vector<char> temp_ans;
@@ -95,8 +87,7 @@ int solution(int n, vector<string> data)
 int main()
 {
     int n = 2;
-    vector<string> a{"N~F<2"};
-    //vector<string> a{"N~F=0", "R~T>2"};
+    vector<string> a{"N~F=0", "R~T>2"};
     vector<string> b{"M~C<2", "C~M>1"};
 
     int ans = solution(n, a);
