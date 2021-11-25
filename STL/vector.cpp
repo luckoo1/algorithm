@@ -227,3 +227,25 @@ int main()
     }
     cout << endl;
 }
+//////////////////////////////////////////////////////////////////////////
+//특정원소제거
+#include <algorithm> // for std::remove
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main()
+{
+    vector<int> v = {1, 2, 3, 4, 5};
+
+    for (int i = 0; i < v.size(); i++)
+        printf("%d--", v[i]);
+    printf("\n");
+
+    v.erase(std::remove(v.begin(), v.end(), 2), v.end());
+    v.erase(std::remove(v.begin(), v.end(), 4), v.end());
+
+    for (int i = 0; i < v.size(); i++)
+        printf("%d--", v[i]);
+    printf("\n");
+}
