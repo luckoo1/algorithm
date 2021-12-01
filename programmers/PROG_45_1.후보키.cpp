@@ -4,11 +4,11 @@
 #include <iostream>
 using namespace std;
 
+unordered_map<string, int> hash_map;
+
 vector<vector<int>> temp_ans;
 vector<int> temp;
 bool check[9];
-
-unordered_map<string, int> hash_map;
 
 void dfs(int dep, int k, int max_size, int col_size)
 {
@@ -39,7 +39,7 @@ bool check_key(vector<int> temp, vector<vector<string>> relation)
         for (int j = 0; j < temp.size(); j++)
         {
             temp_key += relation[i][temp[j]];
-        };
+        }
         hash_map[temp_key] += 1;
         if (hash_map[temp_key] != 1)
             return false;
@@ -50,10 +50,10 @@ bool check_key(vector<int> temp, vector<vector<string>> relation)
 
 int solution(vector<vector<string>> relation)
 {
-    int ans = 0;
     int cnt_row = relation.size();
     int cnt_col = relation[0].size();
-
+    vector<vector<int>> ans;
+    vector<int> ans_row;
     for (int i = 0; i < cnt_col; i++)
     {
         for (int j = 0; j < cnt_row; j++)
@@ -62,26 +62,32 @@ int solution(vector<vector<string>> relation)
             if (hash_map[relation[j][i]] != 1)
                 break;
             if (j == cnt_row - 1)
-                ans += 1;
+            {
+                ans_row.push_back(i);
+                ans.push_back(ans_row);
+                ans_row.clear();
+            }
         }
     }
     hash_map.clear();
 
-    dfs(0, 0, 2, cnt_col);
-
-    for (int i = 0; i < temp_ans.size(); i++)
+    for (int k = 2; k <= relation.size(); k++)
     {
-        if (check_key(temp_ans[i], relation) == true)
+
+        dfs(0, 0, k, cnt_col);
+
+        for (int i = 0; i < temp_ans.size(); i++)
         {
-            for (auto n : temp_ans[i])
+            if (check_key(temp_ans[i], relation) == true)
             {
-                cout << n << " ";
+                ans.push_back(temp_ans[i]);
             }
-            cout << endl;
         }
     }
 
-    return ans;
+    //minimality체크
+
+    return ans.size();
 }
 int main()
 {
