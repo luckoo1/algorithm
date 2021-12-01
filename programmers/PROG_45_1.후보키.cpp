@@ -5,32 +5,81 @@
 using namespace std;
 
 vector<vector<int>> temp_ans;
-void dfs(int dep)
+vector<int> temp;
+bool check[9];
+
+unordered_map<string, int> hash_map;
+
+void dfs(int dep, int k, int max_size, int col_size)
 {
+    if (dep == max_size)
+    {
+        temp_ans.push_back(temp);
+        return;
+    }
+
+    for (int i = k; i < col_size; i++)
+    {
+        if (check[i] == false)
+        {
+            check[i] = true;
+            temp.push_back(i);
+            dfs(dep + 1, i + 1, max_size, col_size);
+            check[i] = false;
+            temp.pop_back();
+        }
+    }
+}
+
+bool check_key(vector<int> temp, vector<vector<string>> relation)
+{
+    string temp_key = "";
+    for (int i = 0; i < relation.size(); i++)
+    {
+        for (int j = 0; j < temp.size(); j++)
+        {
+            temp_key += relation[i][temp[j]];
+        };
+        hash_map[temp_key] += 1;
+        if (hash_map[temp_key] != 1)
+            return false;
+        temp_key = "";
+    }
+    return true;
 }
 
 int solution(vector<vector<string>> relation)
 {
-    unordered_map<string, int> hash;
-
     int ans = 0;
     int cnt_row = relation.size();
     int cnt_col = relation[0].size();
 
     for (int i = 0; i < cnt_col; i++)
     {
-
         for (int j = 0; j < cnt_row; j++)
         {
-            hash[relation[j][i]] += 1;
-            if (hash[relation[j][i]] != 1)
+            hash_map[relation[j][i]] += 1;
+            if (hash_map[relation[j][i]] != 1)
                 break;
             if (j == cnt_row - 1)
                 ans += 1;
         }
     }
+    hash_map.clear();
 
-    dfs(0, 2);
+    dfs(0, 0, 2, cnt_col);
+
+    for (int i = 0; i < temp_ans.size(); i++)
+    {
+        if (check_key(temp_ans[i], relation) == true)
+        {
+            for (auto n : temp_ans[i])
+            {
+                cout << n << " ";
+            }
+            cout << endl;
+        }
+    }
 
     return ans;
 }
