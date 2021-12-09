@@ -31,6 +31,7 @@ void Dijkstra(int N)
                 PQ.push(make_pair(next_node, next_dist));
                 // PQ.push(make_pair(next_node, now_dist));
                 //둘다되네 ㅠ
+                // now_dist는 알고보면 노필요다!
             }
         }
     }
