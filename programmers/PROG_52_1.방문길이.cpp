@@ -1,5 +1,5 @@
 #include <string>
-#include <vector>
+#include <set>
 #include <algorithm>
 #include <iostream>
 using namespace std;
@@ -11,8 +11,8 @@ int solution(string dirs)
     int col = 0;
     int next_row = 0;
     int next_col = 0;
+    set<string> ans;
 
-    vector<string> ans;
     for (int i = 0; i < dirs.size(); i++)
     {
         if (dirs[i] == 'L')
@@ -39,16 +39,27 @@ int solution(string dirs)
         if (next_row > 5 || next_row < -5 || next_col > 5 || next_col < -5)
             continue;
 
-        string dir = to_string(row) + to_string(col);
+        string dir = "";
+
+        if (dirs[i] == 'R' || dirs[i] == 'U')
+        {
+            dir += row;
+            dir += col;
+            dir += next_row;
+            dir += next_col;
+        }
+        else
+        {
+            dir += next_row;
+            dir += next_col;
+            dir += row;
+            dir += col;
+        }
         row = next_row;
         col = next_col;
-        dir += to_string(row);
-        dir += to_string(col);
-        sort(dir.begin(), dir.end());
-        ans.push_back(dir);
+
+        ans.insert(dir);
     }
-    sort(ans.begin(), ans.end());
-    ans.erase(unique(ans.begin(), ans.end()), ans.end());
 
     return ans.size();
 }
@@ -57,6 +68,7 @@ int main()
 {
     string a = "ULURRDLLU";
     string b = "LULLLLLLU";
-    int ans1 = solution(a);
+    string c = "LRLR";
+    int ans1 = solution(c);
     cout << ans1 << endl;
 }
