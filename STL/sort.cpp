@@ -1,4 +1,4 @@
-//sort()함수를 이용
+// sort()함수를 이용
 #include <iostream>
 #include <algorithm>
 using namespace std;
@@ -28,7 +28,7 @@ int main(void)
     return 0;
 }
 //////////////////////////////////////////////////////////////////////////
-//sort()를 이용하여 학생점수 오름차순으로 나열하기
+// sort()를 이용하여 학생점수 오름차순으로 나열하기
 
 #include <iostream>
 #include <algorithm>
@@ -38,7 +38,7 @@ class Student
 public:
     string name;
     int score;
-    //constructor
+    // constructor
     Student(string name, int score)
     {
         this->name = name;
@@ -61,7 +61,7 @@ int main(void)
     return 0;
 }
 //////////////////////////////////////////////////////////////////////////
-//class없이 pair사용하기
+// class없이 pair사용하기
 
 #include <iostream>
 #include <algorithm>
@@ -118,4 +118,58 @@ int main(void)
         cout << "):" << v[i].second.first << endl;
     }
     return 0;
+}
+//////////////////////////////////////////////////////////////////////////
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <iostream>
+using namespace std;
+
+int parent[101];
+
+bool sort_rule(vector<int> &a, vector<int> &b)
+{
+    return a[2] < b[2];
+}
+
+int find_parent(int node)
+{
+    if (parent[node] == node)
+        return node;
+
+    return find_parent(parent[node]);
+}
+
+int solution(int n, vector<vector<int>> costs)
+{
+    int ans = 0;
+    for (int i = 0; i < n; i++)
+        parent[i] = i;
+
+    sort(costs.begin(), costs.end(), sort_rule);
+
+    for (int i = 0; i < costs.size(); i++)
+    {
+        int start = find_parent(costs[i][0]);
+        int end = find_parent(costs[i][1]);
+        int cost = costs[i][2];
+
+        if (start != end)
+        {
+            ans += cost;
+            parent[end] = start;
+        }
+    }
+
+    return ans;
+}
+
+int main()
+{
+    vector<vector<int>> a{{0, 1, 1}, {0, 2, 2}, {1, 2, 5}, {1, 3, 1}, {2, 3, 8}};
+    int b = 4;
+    int ans = solution(b, a);
+    cout << endl;
+    cout << ans;
 }
