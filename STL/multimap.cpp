@@ -1,3 +1,6 @@
+/*
+map과의 차이는 key를 중복해서 저장이 가능하다.
+*/
 #include <iostream>
 #include <map>
 using namespace std;
@@ -6,18 +9,18 @@ int main(void)
 {
     multimap<int, char> mm;
     multimap<int, char>::iterator mmit;
-    mm.insert(pair<int, char>(1, 'a')); //insert key 1, value 'a'
-    mm.insert(pair<int, char>(2, 'b')); //insert key 2, value 'b'
-    mm.insert(pair<int, char>(3, 'c')); //insert key 3, value 'c'
-    mm.insert(pair<int, char>(4, 'd')); //insert key 4, value 'd'
-    mm.insert(pair<int, char>(3, 'e')); //insert key 3, value 'e' > Allow!
+    mm.insert(pair<int, char>(1, 'a')); // insert key 1, value 'a'
+    mm.insert(pair<int, char>(2, 'b')); // insert key 2, value 'b'
+    mm.insert(pair<int, char>(3, 'c')); // insert key 3, value 'c'
+    mm.insert(pair<int, char>(4, 'd')); // insert key 4, value 'd'
+    mm.insert(pair<int, char>(3, 'e')); // insert key 3, value 'e' > Allow!
 
     cout << "mm.erase(1)" << endl;
-    mm.erase(1);                                                   //key가 1인값 제거
+    mm.erase(1);                                                   // key가 1인값 제거
     cout << "mm.size : " << mm.size() << endl;                     //크기
     cout << "mm.max_size : " << mm.max_size() << endl;             //최대 사이즈
-    cout << "mm.count(3) : " << mm.count(3) << endl;               //key가 3인 원소 갯수
-    cout << "mm.find(2)->second : " << mm.find(2)->second << endl; //key가 2인 원소 value
+    cout << "mm.count(3) : " << mm.count(3) << endl;               // key가 3인 원소 갯수
+    cout << "mm.find(2)->second : " << mm.find(2)->second << endl; // key가 2인 원소 value
     return 0;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,9 +52,9 @@ int main(void)
     cout << "\n\n";
 
     /*
-    lower_bound(key) 
+    lower_bound(key)
     key 값에 해당하는 첫번째 원소의 iterator를 반환
-    upper_bound(key) 
+    upper_bound(key)
     key 값에 해당하는 마지막 원소의 다음 원소의 iterator를 반환
     */
 
@@ -90,8 +93,8 @@ int main(void)
 equal_range(key)
 key 값에 해당하는 원소들의 범위를 pair 객체로 반환합니다.
 pair 객체의 first에는 첫번째로 나타나는 원소의 iterator가
-second에는 마지막으로 나타나는 원소의 다음 원소의 iterator가 저장 되어 있습니다. 
-즉 pair객체에는 lower_bound와 upper_bound가 저장 되어있습니다. 
+second에는 마지막으로 나타나는 원소의 다음 원소의 iterator가 저장 되어 있습니다.
+즉 pair객체에는 lower_bound와 upper_bound가 저장 되어있습니다.
 */
 
 #include <iostream>
@@ -115,7 +118,7 @@ int main(void)
     key 값에 해당하는 원소들의 범위를 pair 객체로 반환합니다.
     key가 3인 pair들을 반환하는 개념
     */
-    //key 값이 3인 원소 출력
+    // key 값이 3인 원소 출력
     multimap<int, int>::iterator iter;
     for (iter = mm.equal_range(3).first; iter != mm.equal_range(3).second; iter++)
         cout << '[' << iter->first << ',' << iter->second << ']' << endl;
@@ -123,7 +126,7 @@ int main(void)
     return 0;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-//1.value 삭제
+// 1.value 삭제
 
 #include <iostream>
 #include <map>
@@ -159,7 +162,7 @@ int main(void)
     return 0;
 }
 
-//2.value 삭제////////////////////////////////////////////////////////////////////////////
+// 2.value 삭제////////////////////////////////////////////////////////////////////////////
 #include <iostream>
 #include <map>
 using namespace std;

@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////
-//2차원 초기화방식 1
+// 2차원 초기화방식 1
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -23,7 +23,7 @@ int main()
     }
 }
 //////////////////////////////////////////////////////////////////////////
-//1. 2차원 초기화방식 2
+// 1. 2차원 초기화방식 2
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -56,16 +56,16 @@ int main()
 }
 
 //////////////////////////////////////////////////////////////////////////
-//3. 2차원 초기화방식 2
+// 3. 2차원 초기화방식 2
 #include <iostream>
 #include <vector>
 using namespace std;
 
-vector<int> v(5);                             //0이 5개
-vector<int> v1(5, 2);                         //2가 5개
-vector<vector<int>> v2(4, vector<int>(5));    //0이 5개 들어간 vector가 4개
-vector<vector<int>> v3(4, vector<int>(5, 3)); //3이 5개 들어간 vector가 4개
-vector<vector<int>> v4(4);                    //vector<int> 4개
+vector<int> v(5);                             // 0이 5개
+vector<int> v1(5, 2);                         // 2가 5개
+vector<vector<int>> v2(4, vector<int>(5));    // 0이 5개 들어간 vector가 4개
+vector<vector<int>> v3(4, vector<int>(5, 3)); // 3이 5개 들어간 vector가 4개
+vector<vector<int>> v4(4);                    // vector<int> 4개
 
 int main()
 {
@@ -103,7 +103,7 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////
 //원소제거하기
-//pop_back()은 기본
+// pop_back()은 기본
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -127,27 +127,27 @@ int main()
     }
     printf("\n\n");
 
-    v1.erase(v1.begin() + 1); //2번째 것만 삭제
+    v1.erase(v1.begin() + 1); // 2번째 것만 삭제
     for (int i = 0; i < v1.size(); i++)
     {
         printf("%d ", v1[i]);
     }
     printf("\n\n");
 
-    v2.erase(v2.begin() + 1, v2.begin() + 3); //2번째부터 4번째까지 삭제
+    v2.erase(v2.begin() + 1, v2.begin() + 3); // 2번째부터 4번째까지 삭제
     for (int i = 0; i < v2.size(); i++)
     {
         printf("%d ", v2[i]);
     }
     printf("\n\n");
 
-    printf("%d\n", v2.size()); //size도 변경된다.
+    printf("%d\n", v2.size()); // size도 변경된다.
 
     v.clear(); //다 삭제
 }
 //////////////////////////////////////////////////////////////////////////
 //원소삽입하기
-//push_back()은 기본
+// push_back()은 기본
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -157,10 +157,10 @@ vector<int> v1{1, 2, 3, 4, 5};
 
 int main()
 {
-    v.insert(v.begin() + 1, 99); //1번째에 99삽입
+    v.insert(v.begin() + 1, 99); // 1번째에 99삽입
 
-    v1.insert(v1.begin() + 1, 3, 4); //1 4 4 4 2 3 4 5
-    //1번째에 4를 3개 삽입
+    v1.insert(v1.begin() + 1, 3, 4); // 1 4 4 4 2 3 4 5
+    // 1번째에 4를 3개 삽입
 
     for (int i = 0; i < v.size(); i++)
     {
@@ -202,7 +202,7 @@ int main()
     }
 }
 //////////////////////////////////////////////////////////////////////////
-//vector 복사
+// vector 복사
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -249,3 +249,63 @@ int main()
         printf("%d--", v[i]);
     printf("\n");
 }
+//////////////////////////////////////////////////////////////////////////
+//가장 큰수나 작은수 찾기
+#include <vector>
+#include <algorithm>
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    vector<int> v;
+    v.push_back(46);
+    v.push_back(68);
+    v.push_back(184);
+    v.push_back(4);
+    v.push_back(17);
+    v.push_back(53);
+
+    cout << "현재 vector : ";
+    for (int i : v)
+        cout << i << " ";
+    cout << "\n==============================\n";
+
+    int max = *max_element(v.begin(), v.end());
+    cout << "가장 큰 수 : " << max << "\n";
+
+    int max_index = max_element(v.begin(), v.end()) - v.begin();
+    cout << "가장 큰 수의 인덱스 : " << max_index;
+    cout << "\n==============================\n";
+
+    int min = *min_element(v.begin(), v.end());
+    cout << "가장 작은 수 : " << min << "\n";
+
+    int min_index = min_element(v.begin(), v.end()) - v.begin();
+    cout << "가장 작은 수의 인덱스 : " << min_index << "\n\n";
+
+    return 0;
+}
+
+#include <algorithm>
+#include <iostream>
+#include <vector>
+#include <cmath>
+
+static bool abs_compare(int a, int b)
+{
+    return (std::abs(a) < std::abs(b));
+}
+
+int main()
+{
+    std::vector<int> v{3, 1, -14, 1, 5, 9};
+    std::vector<int>::iterator result;
+
+    result = std::max_element(v.begin(), v.end());
+    std::cout << "max element at: " << std::distance(v.begin(), result) << '\n';
+
+    result = std::max_element(v.begin(), v.end(), abs_compare);
+    std::cout << "max element (absolute) at: " << std::distance(v.begin(), result) << '\n';
+}
+/////////////////////////////////////////////////////////////////////////////////
