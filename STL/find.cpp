@@ -1,4 +1,44 @@
 #include <iostream>
+#include <algorithm>
+#include <vector>
+#include <iterator>
+
+int main()
+{
+    std::vector<int> v{1, 2, 3, 4};
+    int n1 = 3;
+    int n2 = 5;
+    auto is_even = [](int i)
+    { return i % 2 == 0; };
+
+    std::vector<int>::iterator iter = std::find(begin(v), end(v), n1);
+    auto result1 = std::find(begin(v), end(v), n1);
+    auto result2 = std::find(begin(v), end(v), n2);
+    auto result3 = std::find_if(begin(v), end(v), is_even);
+
+    std::cout << *iter << std::endl;
+
+    (result1 != std::end(v))
+        ? std::cout << "v contains " << n1 << '\n'
+        : std::cout << "v does not contain " << n1 << '\n';
+
+    (result2 != std::end(v))
+        ? std::cout << "v contains " << n2 << '\n'
+        : std::cout << "v does not contain " << n2 << '\n';
+
+    (result3 != std::end(v))
+        ? std::cout << "v contains an even number: " << *result3 << '\n'
+        : std::cout << "v does not contain even numbers\n";
+}
+
+/*
+3
+v contains 3
+v does not contain 5
+v contains an even number: 2
+*/
+///////////////////////////////////
+#include <iostream>
 #include <set> // Red Black Tree로 구현
 
 int main()
@@ -21,17 +61,17 @@ int main()
 
     auto ret = std::find(s.begin(), s.end(), 30); //에러는 없다.
 
-    //s.begin()부터 s.end()까지 ++로 이동하면서 찾는다 => 선형검색
-    //STL 핵심 : 원하는 기능이 있으면
-    //A. 멤버함수가 있는지 먼저 찾아라
-    //B. 멤버가 없을때 일반함수(알고리즘)에서 찾아라
+    // s.begin()부터 s.end()까지 ++로 이동하면서 찾는다 => 선형검색
+    // STL 핵심 : 원하는 기능이 있으면
+    // A. 멤버함수가 있는지 먼저 찾아라
+    // B. 멤버가 없을때 일반함수(알고리즘)에서 찾아라
     auto ret2 = s.find(30);
     //위의 코드는 이진검색이 된다.
 
     //항상 "STL" 컨테이너 사용시 - 자료구조(메모리 모양)을 잘 생각하면서 사용해라
 
     auto p = s.begin();
-    while (p != s.end()) //end()가 아니면 찾은거다
+    while (p != s.end()) // end()가 아니면 찾은거다
     {
         std::cout << *p << std::endl;
         ++p;
@@ -39,7 +79,7 @@ int main()
 }
 
 ///////////////////////////////////
-//https://beobsung.tistory.com/19
+// https://beobsung.tistory.com/19
 /*
 5. 검색실패시 반환값 변경
    nulptr을 반환하지 말고 "last"를 반환하자
@@ -62,54 +102,17 @@ int main()
 {
     double x[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
-    double *p = find(x, x + 3, 5); //1. x+3에 있는 4는 검색대상이 되지 않는다.
-                                   //   검색 성공시 x+3은 나올 수 없다.
-                                   //   검색 실패시 x+3을 반환하면 어떨까?
+    double *p = find(x, x + 3, 5); // 1. x+3에 있는 4는 검색대상이 되지 않는다.
+                                   //    검색 성공시 x+3은 나올 수 없다.
+                                   //    검색 실패시 x+3을 반환하면 어떨까?
     // 실제 검색은 1~4만한다. 다시 4부터 검색을 시작하고 싶지 않나? 4의 위치를 아는 건 중요하지 않나
     // 리턴값을 x+3을해서 다시 거기부터 시작하게 하자.
     // 속도가 빨라진다.
     // 이유는? a번 주석으로 가라
     // a번쪽이 주석처리 되어서 속도가 빨라짐
 
-    if (p == x + 3) //3. x+3으로 이거 바꿈
+    if (p == x + 3) // 3. x+3으로 이거 바꿈
         std::cout << "not found" << std::endl;
     else
         std::cout << "found : " << *p << std::endl;
 }
-
-///////////////////////////////////
-#include <iostream>
-#include <algorithm>
-#include <vector>
-#include <iterator>
-
-int main()
-{
-    std::vector<int> v{1, 2, 3, 4};
-    int n1 = 3;
-    int n2 = 5;
-    auto is_even = [](int i)
-    { return i % 2 == 0; };
-
-    auto result1 = std::find(begin(v), end(v), n1);
-    auto result2 = std::find(begin(v), end(v), n2);
-    auto result3 = std::find_if(begin(v), end(v), is_even);
-
-    (result1 != std::end(v))
-        ? std::cout << "v contains " << n1 << '\n'
-        : std::cout << "v does not contain " << n1 << '\n';
-
-    (result2 != std::end(v))
-        ? std::cout << "v contains " << n2 << '\n'
-        : std::cout << "v does not contain " << n2 << '\n';
-
-    (result3 != std::end(v))
-        ? std::cout << "v contains an even number: " << *result3 << '\n'
-        : std::cout << "v does not contain even numbers\n";
-}
-
-/*
-v contains 3
-v does not contain 5
-v contains an even number: 2
-*/
