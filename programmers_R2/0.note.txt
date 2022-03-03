@@ -1,9 +1,7 @@
-5번문제에서  map<string, vector<pair<int, int>>> hash_map;
-일때 vector<pair<int, int>>에서 두번째 int를 기준으로 정렬하기
-
 1. 깡코딩
 2. 깡코딩
 3. hash
 4. hash
 5. hash,sort정책사용
 6. 우선순위큐 사용법,우선순위큐 정책사용
+7. max_element사용 (sort 정책으로 풀어봐라_코드보면 설명있음)
