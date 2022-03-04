@@ -286,7 +286,8 @@ int main()
 
     return 0;
 }
-
+//////////////////////////////////////////////////////////////////////////
+//정책사용
 #include <algorithm>
 #include <iostream>
 #include <vector>
