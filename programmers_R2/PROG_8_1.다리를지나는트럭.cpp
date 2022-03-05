@@ -10,22 +10,20 @@ int solution(int bridge_length, int weight, vector<int> truck_weights)
     int total_truck = truck_weights.size();
     vector<pair<int, int>> road;
 
-    while (finish_truck.size() != total_truck)
+    while (finish_truck.size() != total_truck) // finish_truck에 다건넌 트럭 추가하고
+    //total truck수랑 비교하는 while문
     {
-        for (int i = 0; i < road.size(); i++)
-        {
-            cout << road[i].first << "," << road[i].second << "//";
-        }
-        cout << endl;
         answer += 1;
+
         if (!road.empty())
         {
-            for (int i = 0; i < road.size(); i++)
+            for (int i = 0; i < road.size(); i++) //1.다리 한칸씩 전진
             {
                 road[i].second += 1;
             }
 
-            if (road[0].second > bridge_length)
+            if (road[0].second > bridge_length) // 2.다리 다 건넌거 있으면 없애고
+            // finish_truck에 추가
             {
                 finish_truck.push_back(road[0].first);
                 road.erase(road.begin());
@@ -33,20 +31,13 @@ int solution(int bridge_length, int weight, vector<int> truck_weights)
         }
 
         int on_road_truck_weight = 0;
-        for (int i = 0; i < road.size(); i++)
+        for (int i = 0; i < road.size(); i++) //3.다리위에 있는거 무게 재기
         {
             on_road_truck_weight += road[i].first;
         }
 
-        if (road.empty())
-        {
-            road.push_back(make_pair(truck_weights[0], 1));
-            if (!truck_weights.empty())
-            {
-                truck_weights.erase(truck_weights.begin());
-            }
-        }
-        else if (on_road_truck_weight <= weight)
+        if (on_road_truck_weight + truck_weights[0] <= weight) //4.다라위무게+진입할려는트럭무게 측정후 다리진입여부 파악
+        // "on_road_truck_weight <= weight"해서 틀림
         {
             road.push_back(make_pair(truck_weights[0], 1));
             if (!truck_weights.empty())
