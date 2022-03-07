@@ -1,3 +1,14 @@
+/*
+이런형식으로 더해야함
+string temp_str = "";
+
+string a = "abc";
+temp_str+="abc"
+
+char b = 'a'
+temp_str.push_back(b);
+*/
+
 // 1-------------------------------------------
 #include <stdio.h>
 

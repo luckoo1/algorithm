@@ -7,3 +7,11 @@
 7. max_element사용 (sort 정책으로 풀어봐라_코드보면 설명있음)
 8. 깡코딩
 9. 우선순위큐&multimap사용(multimap max min뽑아내기& iterator이해)
+10.정렬
+11.정렬(string을 정책사용)
+12.깡코딩
+
+
+/////////////////////////
+H-Index
+카펫
