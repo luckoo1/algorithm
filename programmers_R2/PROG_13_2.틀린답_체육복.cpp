@@ -20,27 +20,29 @@ void dfs(int x)
     {
         answer = temp_ans;
     }
+
     for (int i = x; i < vec.size(); i++)
     {
-        if (vec[i] == 0)
+        if (vec[i] == 2) //차이2
         {
-            if (i != 0 && vec[i - 1] == 2) //왼쪽에서 빌려주는거 받기
+
+            if (i != 0 && vec[i - 1] == 0)
             {
                 vec[i - 1] = 1;
                 vec[i] = 1;
-                dfs(i + 1);
-                vec[i - 1] = 2;
-                vec[i] = 0;
             }
+            dfs(i + 1); //차이1
+            vec[i - 1] = 0;
+            vec[i] = 2;
 
-            if (i != vec.size() - 1 && vec[i + 1] == 2) //오른쪽에서 빌려주는거 받기
+            if (i != vec.size() - 1 && vec[i + 1] == 0)
             {
                 vec[i + 1] = 1;
                 vec[i] = 1;
-                dfs(i + 1);
-                vec[i + 1] = 2;
-                vec[i] = 0;
             }
+            dfs(i + 1); //차이1
+            vec[i + 1] = 0;
+            vec[i] = 2;
         }
     }
 
@@ -69,10 +71,10 @@ int solution(int n, vector<int> lost, vector<int> reserve)
 
 int main()
 {
-    int n1 = 5;
-    vector<int> a1{2, 4};
-    vector<int> b1{1, 3, 5};
-    cout << solution(n1, a1, b1) << endl;
+    // int n1 = 5;
+    // vector<int> a1{2, 4};
+    // vector<int> b1{1, 3, 5};
+    // cout << solution(n1, a1, b1) << endl;
     int n2 = 5;
     vector<int> a2{3, 5};
     vector<int> b2{2, 4};
