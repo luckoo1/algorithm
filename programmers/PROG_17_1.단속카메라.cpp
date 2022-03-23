@@ -6,23 +6,27 @@ using namespace std;
 
 bool cmp (vector<int>a,vector<int> b)
 {
-    return a[0]<b[0];
+    return a[1]<b[1];
 }
 
 int solution(vector<vector<int>> routes)
 {
     int answer = 0;
     sort(routes.begin(),routes.end(),cmp);
+
+    int cam = -30001;
     for(int i=0;i<routes.size();i++)
     {
-        for(int j=0;j<2;j++)
+        if(routes[i][0]>cam)
         {
-            cout<<routes[i][j]<<" ";
+            cam = routes[i][1];
+            answer+=1;
         }
-        cout<<endl;
     }
+
     return answer;
 }
+
 
 int main()
 {
