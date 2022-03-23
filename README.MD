@@ -1,5 +1,4 @@
 Algorithm Quiz Solution
 ==
->https://programmers.co.kr/   
->https://leetcode.com/   
+>https://programmers.co.kr/    
 >https://www.acmicpc.net/
