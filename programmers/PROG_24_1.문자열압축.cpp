@@ -7,9 +7,10 @@ int solution(string s)
 {
     int answer = 99999999;
     vector<string> vec;
-    for (int i = 0; i < s.size(); i += 2)
+    int how_many_cut = 1;
+    for (int i = 0; i < s.size(); i += how_many_cut)
     {
-        vec.push_back(s.substr(i, 1));
+        vec.push_back(s.substr(i, how_many_cut));
     }
     string word = vec[0];
     string temp_str = "";
@@ -27,11 +28,11 @@ int solution(string s)
                 temp_str = temp_str + (to_string(cnt) + word);
                 cnt = 1;
             }
-            else
+            else if (cnt == 1)
             {
                 temp_str = temp_str + word;
-                word = vec[i];
             }
+            word = vec[i];
         }
 
     }
@@ -44,7 +45,7 @@ int main()
 {
     cout << "ANSWER : 7,9,8,14,17" << endl;
 
-    // cout << solution("aabbaccc") << endl;
+    cout << solution("aabbaccc") << endl;
     cout << solution("ababcdcdababcdcd") << endl;
     // cout << solution("abcabcdede") << endl;
     // cout << solution("abcabcabcabcdededededede") << endl;
