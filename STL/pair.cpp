@@ -7,7 +7,7 @@ struct DATA
 {
     int x;
     int y;
-    DATA(){}; //이줄 꼭 적어야하나?
+    DATA(){}; //이줄 안적어도됨
     DATA(int x, int y)
     {
         this->x = x;
