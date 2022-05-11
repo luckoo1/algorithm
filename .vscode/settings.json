@@ -55,6 +55,7 @@
         "xstddef": "cpp",
         "xtr1common": "cpp",
         "functional": "cpp",
-        "sstream": "cpp"
+        "sstream": "cpp",
+        "unordered_set": "cpp"
     }
 }
