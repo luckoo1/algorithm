@@ -17,55 +17,13 @@ void rotate(vector<vector<int>> &key)
     key = temp;
 }
 
-void move_up()
-{
-    
-}
-void move_down()
-{
-
-}
-void move_left()
-{
-
-}
-void move_right()
-{
-
-}
-
-int count_num(vector<vector<int>> map, int num)
-{
-    int N = map.size();
-    int sum = 0;
-    for (int i = 0; i < N; i++)
-    {
-        for (int j = 0; j < N; j++)
-        {
-            if (map[i][j] == num)
-            {
-                sum += 1;
-            }
-        }
-    }
-    return sum;
-}
-
-bool check_lock(vector<vector<int>> key, vector<vector<int>> lock)
-{
-    int lock_cnt = count_num(lock, 0); // lock에서 0의수
-    int key_cnt = count_num(key, 1);
-    if (lock_cnt != key_cnt)
-    {
-        return false;
-    }
-}
 
 bool solution(vector<vector<int>> key, vector<vector<int>> lock)
 {
-    bool answer = true;
-    rotate(key);
-    return answer;
+    int key_size = key.size();
+    int lock_size = lock.size();
+
+    return true;
 }
 
 int main()
