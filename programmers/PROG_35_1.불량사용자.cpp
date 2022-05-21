@@ -52,16 +52,18 @@ void dfs(int dep, vector<string> &banned_id)
         if (check_unique(temp_ans) == true)
         {
             string temp_str = "";
-            sort(temp_ans.begin(),temp_ans.end());
+            vector<string> before_sort = temp_ans;
+            sort(temp_ans.begin(), temp_ans.end());
             for (auto n : temp_ans)
             {
                 temp_str += n;
-                temp_str += " ";
             }
+            temp_ans = before_sort;
             ans_set.insert(temp_str);
         }
         return;
     }
+
     for (int i = 0; i < hash_map[banned_id[dep]].size(); i++)
     {
         temp_ans.push_back(hash_map[banned_id[dep]][i]);
@@ -84,36 +86,42 @@ int solution(vector<string> user_id, vector<string> banned_id)
             }
         }
     }
+    for (auto iter = hash_map.begin(); iter != hash_map.end(); iter++)
+    {
+        sort(iter->second.begin(), iter->second.end());
+        iter->second.erase(unique(iter->second.begin(), iter->second.end()), iter->second.end());
+    }
     dfs(0, banned_id);
-    for(auto iter = ans_set.begin();iter!= ans_set.end();iter++)
+#if 0
+    for(auto iter= ans_set.begin();iter!=ans_set.end();iter++)
     {
         cout<<*iter<<endl;
     }
+#endif
 
 #if 0
     for(auto iter = hash_map.begin();iter!=hash_map.end();iter++)
     {
+        cout<<iter->first<<endl;
         for(int i=0;i<hash_map[iter->first].size();i++)
         {
             cout<<iter->first<<","<<iter->second[i]<<endl;
         }
+        cout<<endl;
     }
-    cout<<endl;
 #endif
-    return ans;
+    return ans_set.size();
 }
 int main()
 {
     ans = 0;
-    // cout << solution({"frodo", "fradi", "crodo", "abc123", "frodoc"}, {"fr*d*", "abc1**"}) << endl;
+    cout << solution({"frodo", "fradi", "crodo", "abc123", "frodoc"}, {"fr*d*", "abc1**"}) << endl;
     cout << solution({"frodo", "fradi", "crodo", "abc123", "frodoc"}, {"*rodo", "*rodo", "******"}) << endl;
-    // cout << solution({"frodo", "fradi", "crodo", "abc123", "frodoc"}, {"fr*d*", "*rodo", "******", "******"}) << endl;
+    cout << solution({"frodo", "fradi", "crodo", "abc123", "frodoc"}, {"fr*d*", "*rodo", "******", "******"}) << endl;
 }
 /*
 ******,abc123
 ******,frodoc
-*rodo,frodo
-*rodo,crodo
 *rodo,frodo
 *rodo,crodo
 */
