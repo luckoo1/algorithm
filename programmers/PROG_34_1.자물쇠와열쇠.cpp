@@ -74,17 +74,6 @@ bool solution(vector<vector<int>> key, vector<vector<int>> lock)
                 key_big[i][j] = key[i - lock_size + 1][j - lock_size + 1];
             }
         }
-        #if 0
-        for (int i = 0; i < map_size; i++)
-        {
-            for (int j = 0; j < map_size; j++)
-            {
-                cout << key_big[i][j] << " ";
-            }
-            cout << endl;
-        }
-        cout<<endl;
-        #endif
 
         for (int i = 0; i < map_size - lock_size + 1; i++)
         {
