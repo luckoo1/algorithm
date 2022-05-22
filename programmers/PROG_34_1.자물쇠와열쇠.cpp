@@ -24,7 +24,7 @@ void rotate(vector<vector<int>> &key)
 bool check_key(int row, int col, vector<vector<int>> &key_big, vector<vector<int>> &lock)
 {
     int cnt = 0;
-    for (int i = row; i < row + lock_size; i++)
+    for (int i = row; i < row + lock_size; i++)  //3.움직이는 범위설정을 잘해야한다.
     {
         for (int j = col; j < col + lock_size; j++)
         {
@@ -51,7 +51,7 @@ bool solution(vector<vector<int>> key, vector<vector<int>> lock)
     lock_size = lock.size();
     open_size = 0;
     int map_size = (lock_size * 2) + (key_size - 2);
-    vector<vector<int>> key_big(map_size, vector<int>(map_size));
+    vector<vector<int>> key_big(map_size, vector<int>(map_size));  //1 key를 확장해서 맵을 만들었음
     for (int i = 0; i < lock_size; i++)
     {
         for (int j = 0; j < lock_size; j++)
@@ -71,7 +71,7 @@ bool solution(vector<vector<int>> key, vector<vector<int>> lock)
         {
             for (int j = lock_size - 1; j < lock_size + key_size - 1; j++)
             {
-                key_big[i][j] = key[i - lock_size + 1][j - lock_size + 1];
+                key_big[i][j] = key[i - lock_size + 1][j - lock_size + 1]; //key_big중간에 Key배치
             }
         }
 

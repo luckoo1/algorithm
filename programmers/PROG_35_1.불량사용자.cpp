@@ -58,12 +58,12 @@ void dfs(int dep, vector<string> &banned_id)
             {
                 temp_str += n;
             }
-            temp_ans = before_sort;
+            temp_ans = before_sort; //3. temp_ans.pop_back();를 하기때문에 정렬복구를 해야한다.
             ans_set.insert(temp_str);
         }
         return;
     }
-
+    //2. 각 Hash별로 하나씩 뽑아서 배열하기
     for (int i = 0; i < hash_map[banned_id[dep]].size(); i++)
     {
         temp_ans.push_back(hash_map[banned_id[dep]][i]);
@@ -86,6 +86,7 @@ int solution(vector<string> user_id, vector<string> banned_id)
             }
         }
     }
+    //1. {"*rodo", "*rodo", "******"}라서 "*rodo"가 2번되므로 "*rodo"의 내용이 겹쳐서 2번들어가서 중복방지를 위해서 사용
     for (auto iter = hash_map.begin(); iter != hash_map.end(); iter++)
     {
         sort(iter->second.begin(), iter->second.end());
