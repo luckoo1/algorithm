@@ -39,7 +39,7 @@ string solution(int n, int t, int m, vector<string> timetable)
         crew.push_back(change_int_min(timetable[i]));
     }
 
-    int arrive_time = 9 * 60;
+    int bus_arrive_time = 9 * 60;
     int on_bus_cnt = 0;
     int last_crew_on_bus;
     while (how_many_bus != 0)
@@ -51,7 +51,7 @@ string solution(int n, int t, int m, vector<string> timetable)
         {
             if (!crew.empty())
             {
-                if (arrive_time >= crew[0])
+                if (bus_arrive_time >= crew[0])
                 {
                     last_crew_on_bus = crew[0];
                     crew.erase(crew.begin());
@@ -59,11 +59,11 @@ string solution(int n, int t, int m, vector<string> timetable)
                 }
             }
         }
-        if(crew.empty())
+        if (crew.empty())
         {
             break;
         }
-        arrive_time += t;
+        bus_arrive_time += t;
     }
 
     int last_crew_arrive_time = change_int_min(timetable[timetable.size() - 1]); //마지막에 도착하는 사람의 시간
@@ -79,7 +79,7 @@ string solution(int n, int t, int m, vector<string> timetable)
             }
             else
             {
-                return change_str_min(arrive_time); //자리O, 버스 X
+                return change_str_min(bus_arrive_time); //자리O, 버스 X
             }
         }
         return change_str_min(last_bus_time); //버스가 더있는 경우
@@ -87,6 +87,15 @@ string solution(int n, int t, int m, vector<string> timetable)
 
     if (!crew.empty()) //다 못탄경우
     {
+        if (on_bus_cnt == m)
+        {
+            return change_str_min(last_crew_arrive_time - 1); //더이상 자리X, 버스 X
+        }
+        else
+        {
+            return change_str_min(last_crew_arrive_time); //자리O, 버스 X
+        }
+        
         vector<int> bus_arrive;
         for (int i = 0; i < n; i++)
         {
@@ -102,16 +111,14 @@ string solution(int n, int t, int m, vector<string> timetable)
             }
         }
     }
-    
-    return change_str_min(last_crew_on_bus-1);
 }
 
 int main()
 {
-    // cout << solution(1, 1, 5, {"08:00", "08:01", "08:02", "08:03"}) << endl;
-    // cout << solution(2, 10, 2, {"09:10", "09:09", "08:00"}) << endl;
-    // cout << solution(2, 1, 2, {"09:00", "09:00", "09:00", "09:00"}) << endl;
-    // cout << solution(1, 1, 5, {"00:01", "00:01", "00:01", "00:01", "00:01"}) << endl;
+    cout << solution(1, 1, 5, {"08:00", "08:01", "08:02", "08:03"}) << endl;
+    cout << solution(2, 10, 2, {"09:10", "09:09", "08:00"}) << endl;
+    cout << solution(2, 1, 2, {"09:00", "09:00", "09:00", "09:00"}) << endl;
+    cout << solution(1, 1, 5, {"00:01", "00:01", "00:01", "00:01", "00:01"}) << endl;
     cout << solution(1, 1, 1, {"23:59"}) << endl;
     cout << solution(10, 60, 45, {"23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59"}) << endl;
     cout << solution(1, 1, 5, {"00:01", "00:01", "00:01", "00:01", "00:01", "00:02", "00:03", "00:04"}) << endl; // 00:00 이걸 해결해야한다!!!
