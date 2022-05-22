@@ -202,6 +202,25 @@ int main()
     }
 }
 //////////////////////////////////////////////////////////////////////////
+//첫번째 원소 제거
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+vector<int> v{4, 3, 2, 1, 5};
+
+int main()
+{
+    v.erase(v.begin());//v.erase(v.begin()+0);
+    for(auto n: v)
+    {
+        cout<<n<< " ";
+    }
+    cout<<endl;
+    cout<<v.size();
+}
+//////////////////////////////////////////////////////////////////////////
 // vector 복사
 #include <iostream>
 #include <vector>

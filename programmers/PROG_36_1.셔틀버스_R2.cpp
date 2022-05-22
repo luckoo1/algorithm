@@ -102,6 +102,7 @@ string solution(int n, int t, int m, vector<string> timetable)
             }
         }
     }
+    
     return change_str_min(last_crew_on_bus-1);
 }
 
