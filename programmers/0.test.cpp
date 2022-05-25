@@ -1,75 +1,35 @@
 #include <string>
 #include <vector>
-#include <set>
-#include <algorithm>
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
-vector<int> solution(vector<string> gems)
+int solution(vector<int> stones, int k)
 {
-    vector<int> answer;
+    vector<int> temp_vec;
 
-    set<string> unique_set;
-    for (int i = 0; i < gems.size(); i++)
+    for (int i = 0; i < k; i++)
     {
-        unique_set.insert(gems[i]);
+        temp_vec.push_back(stones[i]);
     }
+    int temp_ans = *max_element(temp_vec.begin(), temp_vec.end());
+    int answer = *max_element(temp_vec.begin(), temp_vec.end());
 
-    int cnt = unique_set.size();
-    unique_set.clear();
-
-    int dist = gems.size();
-
-    for (int i = 0; i < gems.size(); i++)
+    for (int i = k; i < stones.size(); i++)
     {
-        for (int j = i; j < gems.size(); j++)
+        temp_vec.erase(temp_vec.begin());
+        temp_vec.push_back(stones[i]);
+        temp_ans = *max_element(temp_vec.begin(), temp_vec.end());
+        if (answer > temp_ans)
         {
-            unique_set.insert(gems[j]);
-            if (unique_set.size() == cnt)
-            {
-                if (dist > j - i)
-                {
-                    dist = j - i;
-                    answer.clear();
-                    answer.push_back(i + 1);
-                    answer.push_back(j + 1);
-                    if (dist + 1 == cnt)
-                    {
-                        return answer;
-                    }
-                    break;
-                }
-            }
+            answer = temp_ans;
         }
-        unique_set.clear();
     }
+
     return answer;
 }
 
 int main()
 {
-    vector<int> a = solution({"DIA", "RUBY", "RUBY", "DIA", "DIA", "EMERALD", "SAPPHIRE", "DIA"});
-    for (auto n : a)
-    {
-        cout << n << " ";
-    }
-    cout << endl;
-    vector<int> b = solution({"AA", "AB", "AC", "AA", "AC"});
-    for (auto n : b)
-    {
-        cout << n << " ";
-    }
-    cout << endl;
-    vector<int> c = solution({"XYZ", "XYZ", "XYZ"});
-    for (auto n : c)
-    {
-        cout << n << " ";
-    }
-    cout << endl;
-    vector<int> d = solution({"ZZZ", "YYY", "NNNN", "YYY", "BBB"});
-    for (auto n : d)
-    {
-        cout << n << " ";
-    }
-    cout << endl;
+    cout << solution({2, 4, 5, 3, 2, 1, 4, 2, 5, 1}, 3) << endl;
 }
