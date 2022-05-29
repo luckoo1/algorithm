@@ -1,3 +1,7 @@
+/*
+경우의수를 잘따지고
+주석으로 별표표시 해둔곳의 아이디어를 생각하는게 핵심
+*/
 #include <string>
 #include <vector>
 #include <cstring>
