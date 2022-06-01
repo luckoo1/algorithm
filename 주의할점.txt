@@ -1,4 +1,0 @@
-1.배열 초기화는 전역변수는 BSS 영역에서 자동으로 0으로 초기화되만 지역변수 STACK영역에서 자동으로 초기화 되지 않는다.
-2.string에서 한 문자만 빼면 char형식으로 저장해야한다.
-3.double a = (double)b / (double)c; 처럼 b와 c를 double형으로 만들어라(PROG_37_1)
-4.int a = char - 48;  //char를 int로 만드는법
