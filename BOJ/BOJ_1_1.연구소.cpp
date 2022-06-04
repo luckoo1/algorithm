@@ -20,32 +20,20 @@ int ROW, COL;
 
 int dr[4] = {1, -1, 0, 0};
 int dc[4] = {0, 0, 1, -1};
-vector<bool> check(99999, false);
 vector<vector<int>> map(9, vector<int>(9, 0));
 vector<vector<int>> reset_map(9, vector<int>(9, 0));
+vector<vector<bool>> visited;
 
-vector<vector<bool>> visited(9, vector<bool>(9, false));
+vector<bool> check(99999, false);
 int answer = 0;
 
-void print_map()
-{
-        for (int i = 0; i < ROW; i++)
-    {
-        for (int j = 0; j < COL; j++)
-        {
-            cout<<map[i][j]<<" ";
-        }
-        cout<<endl;
-    }
-    cout<<endl;
-}
 
 void bfs(vector<vector<int>> &map)
 {
-    vector<vector<bool>> visited(9, vector<bool>(9, false));
-    for (int i = 0; i < map.size(); i++)
+    vector<vector<bool>> visited(ROW, vector<bool>(COL, false));
+    for (int i = 0; i < ROW; i++)
     {
-        for (int j = 0; j < map[0].size(); j++)
+        for (int j = 0; j < COL; j++)
         {
             if (map[i][j] == 2)
             {
@@ -54,6 +42,7 @@ void bfs(vector<vector<int>> &map)
             }
         }
     }
+
     while (!q.empty())
     {
 
@@ -64,11 +53,11 @@ void bfs(vector<vector<int>> &map)
         {
             int move_row = now_row + dr[k];
             int move_col = now_col + dc[k];
-            if (move_row < 0 || move_col < 0 || move_row >= ROW || move_col > COL)
+            if (move_row < 0 || move_col < 0 || move_row >= ROW || move_col >= COL)
             {
                 continue;
             }
-            if (visited[move_row][move_col] == true || map[move_row][move_col] == 1)
+            if (visited[move_row][move_col] == true ||map[move_row][move_col] == 1)
             {
                 continue;
             }
@@ -76,6 +65,23 @@ void bfs(vector<vector<int>> &map)
             visited[move_row][move_col] = true;
             map[move_row][move_col] = 2;
         }
+    }
+    int cnt = 0;
+    for (int i = 0; i < ROW; i++)
+    {
+        for (int j = 0; j < COL; j++)
+        {
+            if (map[i][j] == 0)
+            {
+                cnt++;
+            }
+        }
+    }
+
+
+    if (cnt > answer)
+    {
+        answer = cnt;
     }
 }
 
@@ -85,26 +91,8 @@ void dfs(int dep, int k)
     {
         reset_map = map;
         bfs(map);
-
-        int cnt = 0;
-        for (int i = 0; i < ROW; i++)
-        {
-            for (int j = 0; j < COL; j++)
-            {
-                if (map[i][j] == 0)
-                {
-                    cnt++;
-                }
-            }
-        }
-
-        if (cnt > answer)
-        {
-            answer = cnt;
-        }
-        
         map = reset_map;
-        
+
         return;
     }
 
@@ -112,7 +100,7 @@ void dfs(int dep, int k)
     {
         if (check[i] == false)
         {
-            map[wall[i].row][wall[i].col] = 2;
+            map[wall[i].row][wall[i].col] = 1;
             check[i] = true;
             dfs(dep + 1, i + 1);
             map[wall[i].row][wall[i].col] = 0;
@@ -148,15 +136,3 @@ int main()
 
     cout << answer;
 }
-
-#if 0 
-    for (int i = 0; i < ROW; i++)
-    {
-        for (int j = 0; j < COL; j++)
-        {
-            cout<<map[i][j]<<" ";
-        }
-        cout<<endl;
-    }
-    cout<<endl;
-#endif
