@@ -1,13 +1,3 @@
-/*
-camera_on off함수에서
-if (check[row][col]== true)
-{
-    break;
-}
-map[row][col]++;
-해서틀림
-이유는 CCTV뒤에도 감시할수 있는데 이렇게하면 CCTV만나는 순간 감시를 멈춘다.
-*/
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -60,12 +50,11 @@ void camera_on(int row, int col, int dir)
         {
             break;
         }
-        if (map[row][col] == 6)
-            break;
-        if (check[row][col] != true)
+        if (check[row][col]== true)
         {
-            map[row][col] = map[row][col] + 1;
+            break;
         }
+        map[row][col]--;
     }
 }
 
@@ -79,12 +68,11 @@ void camera_off(int row, int col, int dir)
         {
             break;
         }
-        if (map[row][col] == 6)
-            break;
-        if (check[row][col] != true)
+        if (check[row][col]== true)
         {
-            map[row][col] = map[row][col] - 1;
+            break;
         }
+        map[row][col]++;
     }
 }
 
@@ -92,20 +80,20 @@ void dfs(int dep)
 {
     if (dep == camera.size())
     {
-        int cnt = 0;
+        int cnt =0;
         for (int i = 0; i < ROW; i++)
         {
             for (int j = 0; j < COL; j++)
             {
-                if (map[i][j] == 0)
+                if(map[i][j]==0)
                 {
                     cnt++;
                 }
             }
         }
-        if (cnt < answer)
+        if(cnt<answer)
         {
-            answer = cnt;
+            answer=cnt;
         }
         return;
     }
@@ -128,10 +116,10 @@ void dfs(int dep)
         for (int i = 0; i < 2; i++)
         {
             camera_on(now_row, now_col, i);
-            camera_on(now_row, now_col, (i + 2) % 4);
+            camera_on(now_row, now_col, (i + 2)%4);
             dfs(dep + 1);
             camera_off(now_row, now_col, i);
-            camera_off(now_row, now_col, (i + 2) % 4);
+            camera_off(now_row, now_col, (i + 2)%4);
         }
     }
     if (type == 3)
@@ -184,6 +172,9 @@ int main()
             if (map[i][j] != 0 && map[i][j] != 6)
             {
                 camera.push_back(DATA(i, j, map[i][j]));
+            }
+            if (map[i][j] != 0)
+            {
                 check[i][j] = true;
             }
         }
