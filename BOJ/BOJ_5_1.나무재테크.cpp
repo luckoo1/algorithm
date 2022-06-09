@@ -41,10 +41,10 @@ int main()
         {
             sort(iter->second.begin(), iter->second.end());
         }
+
         vector<int> new_age;
         for (auto iter = hash_map.begin(); iter != hash_map.end(); iter++)
         {
-            #if 0
             row = (iter->first)[0] - 48;
             col = (iter->first)[1] - 48;
             int dead_tree_energy = 0;
@@ -52,6 +52,7 @@ int main()
             {
                 age = iter->second[i];
                 int namuji_energy = ENERGY[row][col] - age;
+                
                 if (namuji_energy >= 0)
                 {
                     new_age.push_back(age + 1);
@@ -59,7 +60,7 @@ int main()
                 }
                 else
                 {
-                    dead_tree_energy += age / 2; ////땅에 양분이 부족해 자신의 나이만큼 양분을 먹을 수 없는 나무는 양분을 먹지 못하고 즉시 죽는다.
+                    dead_tree_energy += age / 2; //땅에 양분이 부족해 자신의 나이만큼 양분을 먹을 수 없는 나무는 양분을 먹지 못하고 즉시 죽는다.
                     break;
                 }
             }
@@ -67,9 +68,18 @@ int main()
 
             iter->second = new_age;
             new_age.clear();
-            #endif
         }
-        #if 0 
+        for (auto iter = hash_map.begin(); iter != hash_map.end(); iter++)
+        {
+            cout << "1ST RESULT" << endl;
+            cout << "TREE : " << iter->first << endl;
+            for (int i = 0; i < iter->second.size(); i++)
+            {
+                cout << iter->second[i] << " ";
+            }
+            cout << endl;
+        }
+
         for (auto iter = hash_map.begin(); iter != hash_map.end(); iter++)
         {
             for (int i = 0; i < iter->second.size(); i++)
@@ -82,7 +92,7 @@ int main()
                     {
                         int move_row = row + DR[k];
                         int move_col = col + DC[k];
-                        if (move_row < 0 || move_col < 0 || move_row >= row || move_col >= col)
+                        if (move_row < 0 || move_col < 0 || move_row >= N || move_col >= N)
                         {
                             continue;
                         }
@@ -102,13 +112,19 @@ int main()
                 ENERGY[i][j] += PLUS_ENERGY[i][j];
             }
         }
-        #endif
     }
 
     int ANS = 0;
     for (auto iter = hash_map.begin(); iter != hash_map.end(); iter++)
     {
+        cout << "RESULT" << endl;
         ANS += iter->second.size();
+        cout << "TREE : " << iter->first << endl;
+        for (int i = 0; i < iter->second.size(); i++)
+        {
+            cout << iter->second[i] << " ";
+        }
+        cout << endl;
     }
 
     cout << ANS;
