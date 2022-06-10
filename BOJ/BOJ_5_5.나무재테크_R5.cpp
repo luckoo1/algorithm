@@ -38,7 +38,6 @@ int main()
         {
             for (int j = 1; j <= N; ++j)
             {
-                int size = trees[i][j].size();
                 // 양분 먹고 나이 +1
                 int k = 0;
                 for (; k < trees[i][j].size(); ++k)
@@ -60,6 +59,15 @@ int main()
                     ENERGY[i][j] += trees[i][j][p] / 2;
                     trees[i][j].pop_back();
                 }
+
+                for(int x = 0;x<trees[i][j].size();x++)
+                {
+                    if(trees[i][j][x]>0)
+                    {
+                    cout<<trees[i][j][x]<<" ";
+                    }
+                }
+
             }
         }
         for (int i = 1; i <= N; i++)

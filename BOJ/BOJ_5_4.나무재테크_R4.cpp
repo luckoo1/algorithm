@@ -34,34 +34,43 @@ int main()
     //----------------------------------------------------------------------------------
     for (int X = 0; X < K; X++)
     {
-        for (int i = 1; i <= N; ++i)
+        for (int i = 1; i <= N; i++)
         {
-            for (int j = 1; j <= N; ++j)
+            for (int j = 1; j <= N; j++)
             {
-                int size = trees[i][j].size();
-                // 양분 먹고 나이 +1
-                int k = 0;
-                for (; k < trees[i][j].size(); ++k)
+                deque<int> new_age;
+                int dead_tree_energy = 0;
+                for (int k = 0; k < trees[i][j].size(); k++)
                 {
-                    if (ENERGY[i][j] >= trees[i][j][k])
+                    age = trees[i][j][k];
+                    int namuji_energy = ENERGY[row][col] - age;
+                    if (namuji_energy >= 0)
                     {
-                        ENERGY[i][j] -= trees[i][j][k];
-                        trees[i][j][k]++;
+                        ENERGY[row][col] = namuji_energy;
+                        new_age.push_back(age + 1);
                     }
                     else
                     {
-                        break;
+                        dead_tree_energy += age / 2;
                     }
                 }
-                // 여름
-                // 죽은 나무 있는 곳 양분 추가
-                for (int p = trees[i][j].size() - 1; p >= k; --p)
+
+                ENERGY[row][col] += dead_tree_energy;
+
+                trees[i][j] = new_age;
+                new_age.clear();
+                for(int x = 0;x<trees[i][j].size();x++)
                 {
-                    ENERGY[i][j] += trees[i][j][p] / 2;
-                    trees[i][j].pop_back();
+                    if(trees[i][j][x]>0)
+                    {
+                    cout<<trees[i][j][x]<<" ";
+                    }
+
                 }
+
             }
         }
+
         for (int i = 1; i <= N; i++)
         {
             for (int j = 1; j <= N; j++)
