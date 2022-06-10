@@ -1,3 +1,4 @@
+//답본것
 #include <iostream>
 #include <string>
 #include <vector>
@@ -5,7 +6,7 @@
 #include <deque>
 #include <algorithm>
 using namespace std;
-
+ 
 int N, M, K;
 int row, col, age;
 vector<vector<int>> ENERGY(12, vector<int>(12, 5));

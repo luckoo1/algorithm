@@ -43,22 +43,24 @@ int main()
                 for (int k = 0; k < trees[i][j].size(); k++)
                 {
                     age = trees[i][j][k];
-                    if (ENERGY[i][j] >= trees[i][j][k])
+                    int namuji_energy = ENERGY[i][j] - age;
+
+                    if (namuji_energy >= 0)
                     {
-                        ENERGY[i][j] -= trees[i][j][k];
+                        ENERGY[i][j] = namuji_energy;
                         new_age.push_back(age + 1);
                     }
                     else
                     {
-                        dead_tree_energy += age / 2;
+                        dead_tree_energy += trees[i][j][k] / 2;
                     }
                 }
 
-                ENERGY[row][col] += dead_tree_energy;
+                ENERGY[i][j] += dead_tree_energy;
 
                 trees[i][j] = new_age;
                 new_age.clear();
-                #if 0
+#if 0
                 for(int x = 0;x<trees[i][j].size();x++)
                 {
                     if(trees[i][j][x]>0)
@@ -67,7 +69,7 @@ int main()
                     }
 
                 }
-    #endif
+#endif
             }
         }
 
