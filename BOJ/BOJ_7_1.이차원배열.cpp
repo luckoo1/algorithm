@@ -4,6 +4,10 @@
 #include <map>
 using namespace std;
 
+/*
+크기100
+로테이트
+*/
 struct DATA
 {
     int data;
