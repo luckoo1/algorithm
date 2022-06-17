@@ -42,11 +42,6 @@ vector<vector<int>> padding(vector<vector<int>> a)
         }
     }
 
-    if (max_size>100)
-    {
-        
-    }
-
     for (int i = 0; i < a.size(); i++)
     {
         if (a[i].size() != max_size)
@@ -186,7 +181,6 @@ int main()
     bool flag = 0;
     for (int i = 0; i < 100; i++)
     {
-
         if (MAP[R - 1][C - 1] == K)
         {
             flag = 1;

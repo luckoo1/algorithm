@@ -18,15 +18,70 @@ struct DATA
 vector<vector<int>> MAP(3, vector<int>(3, 0));
 vector<DATA> vec;
 map<int, int> hash_map;
-
+/*
+1번답
 bool sort_rule(DATA a, DATA b)
 {
-    if (a.cnt < b.cnt)
+    if (a.cnt != b.cnt)
+    {
+        return a.cnt<b.cnt;
+    }
+
+    return a.data<b.data;
+}
+*/
+/*
+2번답
+bool sort_rule(DATA a, DATA b)
+{
+    if (a.cnt != b.cnt)
+    {
+        if(a.cnt<b.cnt)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    else
+    {
+        if(a.data<b.data)
+         {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+}
+*/
+
+/*
+틀렸던 답
+자동으로 Data정렬해주는 줄 알았다...
+bool sort_rule(DATA a, DATA b)
+{
+    if (a.cnt != b.cnt)
     {
         return true;
     }
 
     return false;
+}
+*/
+
+bool sort_rule(DATA a, DATA b)
+{
+    if (a.cnt != b.cnt)
+    {
+        return a.cnt<b.cnt;
+    }
+
+    return a.data<b.data;
 }
 
 vector<vector<int>> padding(vector<vector<int>> a)
@@ -40,11 +95,6 @@ vector<vector<int>> padding(vector<vector<int>> a)
         {
             max_size = temp_size;
         }
-    }
-
-    if (max_size>100)
-    {
-        
     }
 
     for (int i = 0; i < a.size(); i++)
@@ -94,7 +144,7 @@ vector<vector<int>> rotate(vector<vector<int>> a)
     return vec;
 }
 
-vector<vector<int>> calc_row()
+vector<vector<int>> calc(int check)
 {
     vector<vector<int>> TEMP_MAP;
     int row_size = MAP.size();
@@ -127,7 +177,6 @@ vector<vector<int>> calc_row()
         }
         TEMP_MAP.push_back(temp_vec);
     }
-    
 
     return TEMP_MAP;
 }
@@ -184,19 +233,21 @@ int main()
 
     int answer = 0;
     bool flag = 0;
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i <= 100; i++)  /*for (int i = 0; i < 100; i++)*/
     {
-
-        if (MAP[R - 1][C - 1] == K)
+        if (MAP.size() >= R && MAP[0].size() >= C)
         {
-            flag = 1;
-            break;
+            if (MAP[R - 1][C - 1] == K)
+            {
+                flag = 1;
+                break;
+            }
         }
+
         answer += 1;
 
         int row_size = MAP.size();
         int col_size = MAP[0].size();
-
         if (row_size >= col_size)
         {
             MAP = padding(calc_row());
@@ -216,7 +267,6 @@ int main()
     {
         cout << -1;
     }
-
 }
 
 #if 0
