@@ -4,10 +4,6 @@
 #include <map>
 using namespace std;
 
-/*
-크기100
-로테이트
-*/
 struct DATA
 {
     int data;
@@ -35,6 +31,7 @@ bool sort_rule(DATA a, DATA b)
 
 vector<vector<int>> padding(vector<vector<int>> a)
 {
+
     int max_size = 0;
     for (int i = 0; i < a.size(); i++)
     {
@@ -44,6 +41,12 @@ vector<vector<int>> padding(vector<vector<int>> a)
             max_size = temp_size;
         }
     }
+
+    if (max_size>100)
+    {
+        
+    }
+
     for (int i = 0; i < a.size(); i++)
     {
         if (a[i].size() != max_size)
@@ -55,19 +58,98 @@ vector<vector<int>> padding(vector<vector<int>> a)
             }
         }
     }
+
+    for (int i = 0; i < a.size(); i++)
+    {
+        if (a[i].size() > 100)
+        {
+            int cut_cnt = a[i].size() - 100;
+            for (int k = 0; k < cut_cnt; k++)
+            {
+                a[i].pop_back();
+            }
+        }
+    }
+
     return a;
 }
 
-vector<vector<int>> calc()
+vector<vector<int>> rotate(vector<vector<int>> a)
+{
+    vector<vector<int>> vec;
+    //[ㅡ][ㅣ]
+    int row_size = a.size();    //세로수 ㅡ의수
+    int col_size = a[0].size(); //가로수 ㅣ의수
+
+    vector<int> temp;
+    for (int i = 0; i < col_size; i++)
+    {
+        for (int j = 0; j < row_size; j++)
+        {
+            temp.push_back(a[j][i]);
+        }
+        vec.push_back(temp);
+        temp.clear();
+    }
+    return vec;
+}
+
+vector<vector<int>> calc_row()
 {
     vector<vector<int>> TEMP_MAP;
-    for (int i = 0; i < MAP.size(); i++)
+    int row_size = MAP.size();
+    int col_size = MAP[0].size();
+    for (int i = 0; i < row_size; i++)
     {
         vec.clear();
         hash_map.clear();
-        for (int j = 0; j < MAP[i].size(); j++)
+        for (int j = 0; j < col_size; j++)
         {
+            if (MAP[i][j] == 0)
+            {
+                continue;
+            }
             hash_map[MAP[i][j]]++;
+        }
+
+        for (auto iter = hash_map.begin(); iter != hash_map.end(); iter++)
+        {
+            vec.push_back(DATA(iter->first, iter->second));
+        }
+        sort(vec.begin(), vec.end(), sort_rule);
+
+        vector<int> temp_vec;
+
+        for (int k = 0; k < vec.size(); k++)
+        {
+            temp_vec.push_back(vec[k].data);
+            temp_vec.push_back(vec[k].cnt);
+        }
+        TEMP_MAP.push_back(temp_vec);
+    }
+    
+
+    return TEMP_MAP;
+}
+
+vector<vector<int>> calc_col()
+{
+    int row_size = MAP.size();
+    int col_size = MAP[0].size();
+
+    vector<vector<int>> TEMP_MAP;
+
+    for (int i = 0; i < col_size; i++)
+    {
+        vec.clear();
+        hash_map.clear();
+        for (int j = 0; j < row_size; j++)
+        {
+            if (MAP[j][i] == 0)
+            {
+                continue;
+            }
+            hash_map[MAP[j][i]]++;
         }
 
         for (auto iter = hash_map.begin(); iter != hash_map.end(); iter++)
@@ -88,15 +170,9 @@ vector<vector<int>> calc()
     return TEMP_MAP;
 }
 
-void rotate_map()
-{
-
-}
-
 int R, C, K;
 int main()
 {
-    int answer = 0;
     cin >> R >> C >> K;
     for (int i = 0; i < 3; i++)
     {
@@ -105,20 +181,43 @@ int main()
             cin >> MAP[i][j];
         }
     }
-    //==============================================================================================================
-    int row_size = MAP.size();
-    int col_size = MAP[0].size();
 
-    if (row_size >= col_size)
+    int answer = 0;
+    bool flag = 0;
+    for (int i = 0; i < 100; i++)
     {
-        MAP = padding(calc());
+
+        if (MAP[R - 1][C - 1] == K)
+        {
+            flag = 1;
+            break;
+        }
+        answer += 1;
+
+        int row_size = MAP.size();
+        int col_size = MAP[0].size();
+
+        if (row_size >= col_size)
+        {
+            MAP = padding(calc_row());
+        }
+        else
+        {
+            MAP = padding(calc_col());
+            MAP = rotate(MAP);
+        }
+    }
+
+    if (flag == 1)
+    {
+        cout << answer;
     }
     else
     {
-        rotate_map();
-        MAP = padding(calc());
-        rotate_map();
+        cout << -1;
     }
+
+}
 
 #if 0
     for(int i=0;i<MAP.size();i++)
@@ -131,4 +230,3 @@ int main()
     }
     cout<<endl;
 #endif
-}
