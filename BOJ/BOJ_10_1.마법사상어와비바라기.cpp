@@ -29,6 +29,7 @@ void print(vector<vector<int>> a)
     cout << endl;
     return;
 }
+
 int abs(int a)
 {
     if (a < 0)
@@ -146,6 +147,7 @@ int main()
     CLOUD[N - 1][0] = 1;
     CLOUD[N - 2][1] = 1;
     CLOUD[N - 1][1] = 1;
+
     for (int i = 0; i < M; i++)
     {
         CLOUD = move_cloud(COMMAND[i][0], COMMAND[i][1], CLOUD);
@@ -171,6 +173,7 @@ int main()
         print(CLOUD);
         #endif
     }
+    
     int answer = 0;
     for (int i = 0; i < N; i++)
     {
