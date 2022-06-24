@@ -54,6 +54,10 @@ void rotate(vector<vector<int>> &MAP, int magic_size, int start_row, int start_c
     }
 }
 
+void ice(vector<vector<int>> &MAP)
+{
+    vector<vector<bool>> check(MAP.size(),vector<bool> (MAP.size(),false));
+}
 int main()
 {
     cin >> N >> L;
@@ -85,8 +89,9 @@ int main()
                 }
             }
         }
-        print(MAP);
     }
+
+    
     int ans=0;
     for (int i = 0; i < MAP_SIZE; i++)
     {
