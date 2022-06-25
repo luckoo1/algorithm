@@ -13,9 +13,9 @@ bool check_binary(vector<int> rocks, int n, int mid)
         if (rocks[i] - left >= mid)
             left = rocks[i];
         else
-            cnt++;
+            cnt++; //돌빼는수
     }
-    if (cnt > n)
+    if (cnt <= n)
     {
         return true;
     }
@@ -38,12 +38,12 @@ int solution(int distance, vector<int> rocks, int n)
         int mid = (start + end) / 2;
         if (check_binary(rocks, n, mid) == true)
         {
-            end = mid -1;
+            answer = mid;
+            start = mid + 1;
         }
         else
         {
-            answer = mid;
-            start = mid +1;
+            end = mid - 1;
         }
     }
 
