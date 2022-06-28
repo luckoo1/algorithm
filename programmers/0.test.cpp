@@ -1,30 +1,22 @@
-#include <set>
-#include <string>
-#include <algorithm>
+#include <queue>
+#include <vector>
 #include <iostream>
-using namespace std;
+#include <functional>
 
+ 
+ void print_q( std::priority_queue<int> q)
+ {
+    std::cout<<"PRINT"<<std::endl;
+    int a = q.top();
+    std::cout<<a<<std::endl;
+    q.pop();
+
+ }
 int main()
 {
-    //★set초기화
-    set<int,less<int>> setnum;
+ 
+    std::vector<int> vec={3, 1, 4, 1, 5};
+    std::priority_queue<int,std::less<int>> c3(vec.begin(),vec.end());
+    print_q(c3);
 
-    //★set에 요소 추가
-    setnum.insert(7);
-    setnum.insert(4);
-    setnum.insert(3);
-    setnum.insert(5);
-    setnum.insert(7);
-
-    //★set size확인
-    cout << "Set size : " << setnum.size() << endl; //중복이 없어서 4가 나온다.
-    //4
-
-    //★set 출력해보기
-    cout << "Set : ";
-    for (set<int>::iterator it = setnum.begin(); it != setnum.end(); it++)
-    {
-        cout << *it << " ";
-    }
-    cout << "\n";
 }
