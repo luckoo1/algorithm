@@ -106,5 +106,6 @@ int solution(vector<string> maze)
 int main()
 {
     cout<<solution({"ooooo","ooo##","###oo","ooooo","ooooo"})<<endl;
+    cout<<solution({"ooooo","ooooo","ooooo","ooooo","ooooo"})<<endl;
     cout<<solution({"#0","0#"})<<endl;
 }
