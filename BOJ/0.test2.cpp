@@ -49,7 +49,7 @@ float get_average(vector<vector<int>> vec)
         for (int j = 0; j < M; j++)
         {
             sum += vec[i][j];
-            if (vec[i][j] != 0)
+            if(vec[i][j]!=0)
             {
                 cnt++;
             }
@@ -115,7 +115,7 @@ int main()
         int bae_soo = COMMAND[i][0];
         int wise = COMMAND[i][1];
         int how_many = COMMAND[i][2];
-        for (int j = bae_soo; j <= N; j += bae_soo)
+        for (int j = bae_soo; j <= M; j += bae_soo)
         {
             if (wise == 0)
             {
@@ -140,42 +140,33 @@ int main()
                 }
             }
         }
+        PRINT_VEC(MAP);
+        cout << endl;
         if (flag == 0)
         {
-            int sum = 0;
-            int cnt = 0;
-            for (int i = 0; i < N; i++)
-            {
-                for (int j = 0; j < M; j++)
-                {
-                    sum += MAP[i][j];
-                    if (MAP[i][j] != 0)
-                    {
-                        cnt++;
-                    }
-                }
-            }
-            double avg = (double) sum / cnt;
-  
+            float avg = get_average(MAP);
+            cout<<avg<<endl;
             for (int i = 0; i < N; i++)
             {
                 for (int j = 0; j < M; j++)
                 {
                     if (MAP[i][j] != 0)
                     {
-                        if (MAP[i][j] < avg)
+                        if ( (double)MAP[i][j] < avg)
                         {
-                            MAP[i][j]++;
+                            MAP[i][j] += 1;
                         }
-                        else if (MAP[i][j] > avg)
+                        if ( (double)MAP[i][j] >avg)
                         {
-                            MAP[i][j]--;
+                            MAP[i][j] -= 1;
                         }
                     }
                 }
             }
         }
     }
+    PRINT_VEC(MAP);
+    cout << endl;
     int sum = 0;
     for (int i = 0; i < N; i++)
     {
