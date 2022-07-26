@@ -1,7 +1,7 @@
 /*
 1.처음부터 손님을 못찾는경우
 2.손님위치에서 목적지로 못가는 경우
-★핵심으로 처리함
+BFS_check를 전역으로 뺀것이 핵심(★핵심)
 */
 
 #include <iostream>
@@ -123,7 +123,6 @@ int main()
         }
     }
     sort(INFO.begin(),INFO.end(),sort_rule);
-
 
     vector<vector<int>> dist_map = BFS(MAP, NOW_R - 1, NOW_C - 1);
     vector<bool> check(M, false);
