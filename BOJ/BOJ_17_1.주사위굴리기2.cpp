@@ -5,6 +5,7 @@ using namespace std;
 
 int N, M, K;
 vector<vector<int>> MAP(22, vector<int>(22, 0));
+vector<vector<bool>> g_check(22, vector<bool>(22, false));
 vector<int> dice{2, 1, 5, 6, 4, 3};
 
 int DR[4] = {1, -1, 0, 0};
@@ -71,66 +72,49 @@ vector<int> rotate_down()
     return temp;
 }
 
-void bfs()
+void bfs(int r, int c)
 {
+    vector<vector<bool>> visited(22, vector<bool>(22, false));
+
     queue<DATA> q;
-    vector<vector<bool>> check(22, vector<bool>(22, false));
+    q.push(DATA(r, c));
+    g_check[r][c] = true;
+    visited[r][c] = true;
+
+    int number = MAP[r][c];
+    int cnt = 1;
+
+    while (!q.empty())
+    {
+        int start_R = q.front().r;
+        int start_C = q.front().c;
+        q.pop();
+        for (int k = 0; k < 4; k++)
+        {
+            int move_R = start_R + DR[k];
+            int move_C = start_C + DC[k];
+
+            if (move_R < 1 || move_C < 1 || move_R > N || move_C > M)
+                continue;
+            if (g_check[move_R][move_C] == true)
+                continue;
+            if (MAP[move_R][move_C] != number)
+                continue;
+
+            q.push(DATA(move_R, move_C));
+            g_check[move_R][move_C] = true;
+            visited[move_R][move_C] = true;
+            cnt += 1;
+        }
+    }
+
     for (int i = 1; i <= N; i++)
     {
-        for (int i = 1; i <= N; i++)
-        {
-            for (int j = 1; j <= M; j++)
-            {
-                check[i][j] = false;
-            }
-        }
         for (int j = 1; j <= M; j++)
         {
-            if (check[i][j] == false)
+            if (visited[i][j] == true)
             {
-                q.push(DATA(i, j));
-                check[i][j] = true;
-                int number = MAP[i][j];
-                int cnt = 1;
-                while (!q.empty())
-                {
-                    int start_R = q.front().r;
-                    int start_C = q.front().c;
-                    q.pop();
-                    for (int k = 0; k < 4; k++)
-                    {
-                        int move_R = start_R + DR[4];
-                        int move_C = start_C + DC[4];
-                        if (move_R < 1 || move_C < 1 || move_R > N || move_C > N)
-                            continue;
-                        if (check[move_R][move_C] == true)
-                            continue;
-                        if (MAP[move_R][move_C] != number)
-                            continue;
-                        q.push(DATA(move_R, move_C));
-                        check[move_R][move_C] = true;
-                        cnt += 1;
-                    }
-                }
-
-                for (int i = 1; i <= N; i++)
-                {
-                    for (int j = 1; j <= M; j++)
-                    {
-                        MAP[i][j] = MAP[i][j] * cnt;
-                    }
-                }
-                cout<<endl;
-                for (int i = 1; i <= N; i++)
-                {
-                    for (int j = 1; j <= M; j++)
-                    {
-                        cout<<check[i][j]<<" ";
-                    }
-                    cout<<endl;
-                }
-                cout<<number<<endl;
-                cout<<endl;
+                MAP[i][j] = MAP[i][j] * cnt;
             }
         }
     }
@@ -145,7 +129,15 @@ int main()
             cin >> MAP[i][j];
         }
     }
-
-    bfs();
-    PRINT_VEC(MAP);
+    for (int i = 1; i <= N; i++)
+    {
+        for (int j = 1; j <= M; j++)
+        {
+            if (g_check[i][j] == false)
+            {
+                bfs(i, j);
+            }
+        }
+    }
+    
 }
