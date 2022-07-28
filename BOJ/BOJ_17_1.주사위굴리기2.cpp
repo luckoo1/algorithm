@@ -133,7 +133,7 @@ int main()
     }
 
     SCORE = MAP;
-
+    /*SCORE Vector MAP만들기*/
     for (int i = 1; i <= N; i++)
     {
         for (int j = 1; j <= M; j++)
@@ -182,14 +182,9 @@ int main()
         {
             dice = rotate_down();
         }
-
+        /*답 더하기*/
         answer+=SCORE[MOVE_R][MOVE_C];
-        // cout<<dir<<"  "<<MOVE_R<<","<<MOVE_C<<endl;
-        // for(auto n: dice)
-        // {
-        //     cout<<n<<" ";
-        // }
-        // cout<<endl;
+
         /*다음 방향 판단*/
         if(dice[3]>MAP[MOVE_R][MOVE_C])
         {
@@ -199,8 +194,6 @@ int main()
         {
             dir = (dir+1)%4;
         }  
-        // cout<<dir<<","<<answer<<endl;
-        // cout<<endl;
     }
     cout<<answer;
 }
