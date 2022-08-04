@@ -68,8 +68,7 @@ void move_horse(vector<vector<int>> MAP, vector<vector<int>> &HORSE)
 
         int move_R = now_R + DR[dir];
         int move_C = now_C + DC[dir];
-
-        if (move_R < 1 || move_C < 1 || move_R > N || move_R > N || MAP[move_R][move_C] == 2)
+        if (move_R < 1 || move_C < 1 || move_R > N || move_C > N || MAP[move_R][move_C] == 2)
         {
             dir = change_dir(dir);
             for (int i = 0; i < CHESS_LOC[now_R][now_C].size(); i++)
@@ -77,66 +76,88 @@ void move_horse(vector<vector<int>> MAP, vector<vector<int>> &HORSE)
                 if (CHESS_LOC[now_R][now_C][i].num == num)
                 {
                     CHESS_LOC[now_R][now_C][i].dir = dir;
-                    continue;
                 }
             }
+            move_R = now_R + DR[dir];
+            move_C = now_C + DC[dir];
         }
-        else if (MAP[move_R][move_C] == 1) /*빨간색*/
+        if (move_R >= 1 && move_C >= 1 && move_R <= N && move_R <= N)
         {
-            int idx;
-            for (int i = 0; i < CHESS_LOC[now_R][now_C].size(); i++)
+            if (MAP[move_R][move_C] == 1) /*빨간색*/
             {
-                if (CHESS_LOC[now_R][now_C][i].num == num)
+                int idx;
+                for (int i = 0; i < CHESS_LOC[now_R][now_C].size(); i++)
                 {
-                    idx = i;
-                    break;
+                    if (CHESS_LOC[now_R][now_C][i].num == num)
+                    {
+                        idx = i;
+                        break;
+                    }
+                }
+                for (int i = CHESS_LOC[now_R][now_C].size() - 1; i >= idx; i--)
+                {
+                    CHESS_LOC[move_R][move_C].push_back(DATA(CHESS_LOC[now_R][now_C][i].num,
+                                                             move_R,
+                                                             move_C,
+                                                             CHESS_LOC[now_R][now_C][i].dir));
+                    HORSE[CHESS_LOC[now_R][now_C][i].num-1][1]=move_R;
+                    HORSE[CHESS_LOC[now_R][now_C][i].num-1][2]=move_C;
+                    HORSE[CHESS_LOC[now_R][now_C][i].num-1][3]=CHESS_LOC[now_R][now_C][i].dir;
+                    
+                }
+                int sz = CHESS_LOC[now_R][now_C].size() - idx;
+                for (int i = 0; i < sz; i++)
+                {
+                    CHESS_LOC[now_R][now_C].pop_back();
                 }
             }
-            for (int i = CHESS_LOC[now_R][now_C].size() - 1; i >= idx; i--)
+            else if (MAP[move_R][move_C] == 0) /*흰색*/
             {
-                CHESS_LOC[move_R][move_C].push_back(DATA(CHESS_LOC[now_R][now_C][i].num,
-                                                         move_R,
-                                                         move_C,
-                                                         CHESS_LOC[now_R][now_C][i].dir));
-            }
-            int sz = CHESS_LOC[now_R][now_C].size()-idx;
-            for(int i=0;i<sz;i++)
-            {
-                CHESS_LOC[now_R][now_C].pop_back();
-            }
-        }
-        else if (MAP[move_R][move_C] == 0) /*흰색*/
-        {
-            int idx;
-            for (int i = 0; i < CHESS_LOC[now_R][now_C].size(); i++)
-            {
-                if (CHESS_LOC[now_R][now_C][i].num == num)
+                int idx;
+                for (int i = 0; i < CHESS_LOC[now_R][now_C].size(); i++)
                 {
-                    idx = i;
-                    break;
+                    if (CHESS_LOC[now_R][now_C][i].num == num)
+                    {
+                        idx = i;
+                        break;
+                    }
+                }
+                for (int i = idx; i < CHESS_LOC[now_R][now_C].size(); i++)
+                {
+                    CHESS_LOC[move_R][move_C].push_back(DATA(CHESS_LOC[now_R][now_C][i].num,
+                                                             move_R,
+                                                             move_C,
+                                                             CHESS_LOC[now_R][now_C][i].dir));
+                    HORSE[CHESS_LOC[now_R][now_C][i].num-1][1]=move_R;
+                    HORSE[CHESS_LOC[now_R][now_C][i].num-1][2]=move_C;
+                    HORSE[CHESS_LOC[now_R][now_C][i].num-1][3]=CHESS_LOC[now_R][now_C][i].dir;
+                }
+                int sz = CHESS_LOC[now_R][now_C].size() - idx;
+                for (int i = 0; i < sz; i++)
+                {
+                    CHESS_LOC[now_R][now_C].pop_back();
                 }
             }
-            for (int i = idx; i < CHESS_LOC[now_R][now_C].size(); i++)
+            #if 0
+            for (int i = 1; i <= N; i++)
             {
-                CHESS_LOC[move_R][move_C].push_back(DATA(CHESS_LOC[now_R][now_C][i].num,
-                                                         move_R,
-                                                         move_C,
-                                                         CHESS_LOC[now_R][now_C][i].dir));
+                for (int j = 1; j <= N; j++)
+                {
+                    cout << CHESS_LOC[i][j].size() << " ";
+                }
+                cout << endl;
             }
-            int sz = CHESS_LOC[now_R][now_C].size()-idx;
-            for(int i=0;i<sz;i++)
-            {
-                CHESS_LOC[now_R][now_C].pop_back();
-            }
+            cout << endl;
+            #endif
         }
     }
     HORSE.clear();
     vector<int> temp;
-    for(int i=1;i<=N;i++)
+    for (int i = 1; i <= N; i++)
     {
-        for(int j=1;j<=N;j++)
+        for (int j = 1; j <= N; j++)
         {
-            for(int k=0;k<CHESS_LOC[i][j].size();k++)
+            for (int k = 0; k < CHESS_LOC[i][j].size(); k++)
             {
                 temp.clear();
                 temp.push_back(CHESS_LOC[i][j][k].num);
@@ -147,16 +168,6 @@ void move_horse(vector<vector<int>> MAP, vector<vector<int>> &HORSE)
             }
         }
     }
-
-    for(int i=1;i<=N;i++)
-    {
-        for(int j=1;j<=N;j++)
-        {
-            cout<<CHESS_LOC[i][j].size()<<" ";
-        }
-        cout<<endl;
-    }
-    cout<<endl;
 }
 
 int main()
@@ -188,35 +199,27 @@ int main()
         CHESS_LOC[now_R][now_C].push_back(DATA(num, now_R, now_C, dir));
     }
 
-    cout<<endl;
+    move_horse(MAP, HORSE);
+    #if 0
     for (int i = 0; i < K; i++)
     {
         for (int j = 0; j <= 3; j++)
         {
-            cout<<HORSE[i][j]<<" ";
+            cout << HORSE[i][j] << " ";
         }
-        cout<<endl;
+        cout << endl;
     }
-    cout<<"after move"<<endl;
+    cout << "===========" << endl;
     move_horse(MAP, HORSE);
     for (int i = 0; i < K; i++)
     {
         for (int j = 0; j <= 3; j++)
         {
-            cout<<HORSE[i][j]<<" ";
+            cout << HORSE[i][j] << " ";
         }
-        cout<<endl;
+        cout << endl;
     }
-    cout<<"after move"<<endl;
-    move_horse(MAP, HORSE);
-    for (int i = 0; i < K; i++)
-    {
-        for (int j = 0; j <= 3; j++)
-        {
-            cout<<HORSE[i][j]<<" ";
-        }
-        cout<<endl;
-    }
+    #endif
 }
 
 #if 0
