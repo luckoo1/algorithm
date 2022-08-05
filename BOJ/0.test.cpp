@@ -26,8 +26,8 @@ void dfs(int dep)
 {
     vector<DATA> HORSE(4, DATA(0, 0));
     vector<int> check(40, 0);
-    vector<bool> finish(10, false);
-    vec = {0, 0, 0, 1, 0, 0, 0, 0, 0, 0};
+    vector<bool> finish(4, false);
+    vec = {0, 0, 0, 0, 0, 0, 0, 1, 0, 0};
     int temp_ans = 0;
     for (int i = 0; i < 10; i++)
     {
@@ -55,8 +55,8 @@ void dfs(int dep)
 
         int MOVE_R = R;
         int MOVE_C = C + COMMAND[i];
-
-        if (MOVE_C >= MAP[MOVE_R].size() - 1)
+        cout<<MOVE_R<<","<<MOVE_C<<endl;
+        if (MOVE_C >= MAP[MOVE_R].size())
         {
             finish[move_horse] = true;
             continue;
@@ -87,6 +87,11 @@ void dfs(int dep)
         {
             cout << HORSE[i].r << "," << HORSE[i].c << endl;
         }
+        for (auto n : finish)
+        {
+            cout << n << " ";
+        }
+        cout << endl;
         cout << endl;
     }
     return;

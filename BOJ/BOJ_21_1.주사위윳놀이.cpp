@@ -57,7 +57,6 @@ void dfs(int dep)
 
             int MOVE_R = R;
             int MOVE_C = C + COMMAND[i];
-
             if (MOVE_C >= MAP[MOVE_R].size())
             {
                 finish[move_horse] = true;
