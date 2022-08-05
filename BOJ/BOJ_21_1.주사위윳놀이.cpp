@@ -14,54 +14,50 @@ struct DATA
 };
 
 vector<vector<int>> MAP = {{0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40},
-                           {10, 13, 16, 19, 25, 30, 35, 40},  // 10
-                           {20, 22, 24, 25, 30, 35, 40},      // 20
-                           {30, 28, 27, 26, 25, 30, 35, 40}}; // 30
+                           {0, 13, 16, 19, 25, 30, 35, 40},  // 10
+                           {0, 22, 24, 25, 30, 35, 40},      // 20
+                           {0, 28, 27, 26, 25, 30, 35, 40}}; // 30
+vector<vector<bool>> check(4,vector<bool>(22,false));
 vector<DATA> HORSE(4, DATA(0, 0));
 vector<int> COMMAND(10, 0);
-
+vector<int> vec(10,0);
 int answer = 0;
-int temp_ans = 0;
 void dfs(int dep)
 {
     if (dep == 10)
     {
+        int temp_ans = 0;
+        for(int i=0;i<10;i++)
+        {
+            int move_horse = vec[i];
+            int R = HORSE[move_horse].r;
+            int C = HORSE[move_horse].c;
+            int MOVE_R = R + COMMAND[i];
+            int MOVE_C = C;
+
+            if(check[MOVE_R][C]==true)
+                break;
+            
+            if(MAP[MOVE_R][C]==10)
+                MOVE_C = 1;   
+            else if(MAP[MOVE_R][C]==20)
+                MOVE_C = 2;
+            else if(MAP[MOVE_R][C]==30)
+                MOVE_C = 3;
+
+            check[MOVE_R][MOVE_C]=true;
+            check[R][C]=false;
+        
+            HORSE[move_horse]=DATA(MOVE_R,MOVE_C);
+
+        }
         return;
     }
 
-    int cmd = COMMAND[dep];
-
-    for (int i = 0; i < 4; i++)
+    for(int i=0;i<4;i++)
     {
-        int R = HORSE[i].r;
-        int C = HORSE[i].c;
-
-        if (MAP[R][C] == 10)
-            R = 1;
-        else if (MAP[R][C] == 20)
-            R = 2;
-        else if (MAP[R][C] == 30)
-            R = 3;
-        else if (MAP[R][C] == 40)
-            continue;
-
-        for (int j = 0; j < cmd; j++)
-        {
-            C = C + 1;
-            temp_ans += MAP[R][C];
-            if (MAP[R][C] == 40)
-            {
-                HORSE[i] = DATA(R,C);
-            }
-                break;       
-        }
-
-        dfs(dep+1);
-        
-        for (int j = 0; j < cmd; j++)
-        {
-            C = C - 1;
-        }
+        vec[dep]=i;
+        dfs(dep+1);        
     }
 }
 
