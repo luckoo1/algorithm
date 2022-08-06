@@ -1,136 +1,102 @@
 #include <iostream>
-#include <vector>
+#include <climits>
 using namespace std;
 
-struct DATA
+int dice[10]; // 주사위의 입력값
+int piece[4]; // 현재 말의 위치
+
+int arr[34];    // 다음에 갈 위치 저장
+int score[34];  // 윷놀이판 엔트리의 점수
+int turn[34];   // 파란색 화살표가 있는 전환 지점
+bool check[34]; // 윷놀이판 엔트리의 말 존재여부
+
+int ans = INT_MIN;
+
+void dfs(int cnt, int sum)
 {
-    int r;
-    int c;
-    DATA(int r, int c)
+    if (cnt == 10)
     {
-        this->r = r;
-        this->c = c;
+        
+        if(sum>ans)
+        {
+            ans = sum;
+        }
+        return;
     }
-};
 
-vector<vector<int>> MAP = {{0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 0}, // size =22
-                           {0, 13, 16, 19, 25, 30, 35, 40, 0},                                                 // 10
-                           {0, 22, 24, 25, 30, 35, 40, 0},                                                     // 20
-                           {0, 28, 27, 26, 25, 30, 35, 40, 0}};                                                // 30
+    for (int i = 0; i < 4; i++)
+    {
+        int prev = piece[i];
+        int cur = prev;
+        int move = dice[cnt];
 
-vector<int> COMMAND(10, 0);
-vector<int> vec(10, 0);
+        if (turn[cur] > 0)
+        {                    // 파란색 화살표 지점 도달시 방향 전환
+            cur = turn[cur]; // 현재 위치가 전환점인지 먼저 확인해서 방향 바꿔놓고, 이동 시작
+            move--;
+        }
 
-int answer = 0;
-void dfs(int dep)
+        while (move--)
+            cur = arr[cur]; // 남은 이동횟수만큼 칸 이동
+
+        if (cur != 21 && check[cur])
+            continue; // 도착위치가 아닌데, 해당 위치에 말이 있다면 못 놓음
+
+        check[prev] = false;
+        check[cur] = true;
+        piece[i] = cur;
+
+        dfs(cnt + 1, sum + score[cur]); // 이동가능할 시, 해당 칸에 체크하고 점수추가해서 재귀 호출
+
+        piece[i] = prev;
+        check[prev] = true;
+        check[cur] = false;
+    }
+}
+
+void init()
 {
-    vector<DATA> HORSE(4, DATA(0, 0));
-    vector<int> check(40, 0);
-    vector<bool> finish(4, false);
-    vec = {0, 0, 0, 0, 0, 0, 0, 1, 0, 0};
-    int temp_ans = 0;
-    for (int i = 0; i < 10; i++)
-    {
-        int move_horse = vec[i];
-        if (finish[move_horse] == true)
-            continue;
+    for (int i = 0; i < 21; i++)
+        arr[i] = i + 1;
+    arr[21] = 21;
 
-        int R = HORSE[move_horse].r;
-        int C = HORSE[move_horse].c;
-        if (MAP[R][C] == 10)
-        {
-            R = 1;
-            C = 0;
-        }
-        else if (MAP[R][C] == 20)
-        {
-            R = 2;
-            C = 0;
-        }
-        else if (MAP[R][C] == 30)
-        {
-            R = 3;
-            C = 0;
-        }
+    for (int i = 22; i < 27; i++)
+        arr[i] = i + 1;
 
-        int MOVE_R = R;
-        int MOVE_C = C + COMMAND[i];
-        cout<<MOVE_R<<","<<MOVE_C<<endl;
-        if (MOVE_C >= MAP[MOVE_R].size())
-        {
-            finish[move_horse] = true;
-            continue;
-        }
+    arr[27] = 20;
+    arr[28] = 29;
+    arr[29] = 30;
+    arr[30] = 25;
+    arr[31] = 32;
+    arr[32] = 25;
 
-        if (check[MAP[MOVE_R][MOVE_C]] == true)
-        {
-            continue;
-        }
+    turn[5] = 22;
+    turn[10] = 31;
+    turn[15] = 28;
 
-        check[MAP[MOVE_R][MOVE_C]] = true;
-        check[MAP[R][C]] = false;
+    for (int i = 0; i < 21; i++)
+        score[i] = 2 * i;
 
-        HORSE[move_horse] = DATA(MOVE_R, MOVE_C);
-        temp_ans = temp_ans + MAP[MOVE_R][MOVE_C];
-    }
-
-    if (answer < temp_ans)
-    {
-        answer = temp_ans;
-        cout << answer << endl;
-        for (auto n : vec)
-        {
-            cout << n << " ";
-        }
-        cout << endl;
-        for (int i = 0; i < 4; i++)
-        {
-            cout << HORSE[i].r << "," << HORSE[i].c << endl;
-        }
-        for (auto n : finish)
-        {
-            cout << n << " ";
-        }
-        cout << endl;
-        cout << endl;
-    }
-    return;
+    score[22] = 13;
+    score[23] = 16;
+    score[24] = 19;
+    score[25] = 25;
+    score[26] = 30;
+    score[27] = 35;
+    score[28] = 28;
+    score[29] = 27;
+    score[30] = 26;
+    score[31] = 22;
+    score[32] = 24;
 }
 
 int main()
 {
+    init();
     for (int i = 0; i < 10; i++)
-    {
-        cin >> COMMAND[i];
-    }
-    dfs(0);
-    cout << answer;
+        cin >> dice[i];
+    dfs(0, 0);
+
+    cout << ans << endl;
+    return 0;
 }
-
-#if 0
-        int temp_ans = 0;
-        for(int i=0;i<10;i++)
-        {
-            int move_horse = vec[i];
-            int R = HORSE[move_horse].r;
-            int C = HORSE[move_horse].c;
-            int MOVE_R = R + COMMAND[i];
-            int MOVE_C = C;
-
-            if(check[MOVE_R][C]==true)
-                break;
-            
-            if(MAP[MOVE_R][C]==10)
-                MOVE_C = 1;   
-            else if(MAP[MOVE_R][C]==20)
-                MOVE_C = 2;
-            else if(MAP[MOVE_R][C]==30)
-                MOVE_C = 3;
-
-            check[MOVE_R][MOVE_C]=true;
-            check[R][C]=false;
-        
-            HORSE[move_horse]=DATA(MOVE_R,MOVE_C);
-
-        }
-#endif
