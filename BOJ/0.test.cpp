@@ -234,21 +234,23 @@ void bfs(vector<vector<int>> &MAP)
                 }
             }
 
-            if (cnt < temp_cnt)
+            if (cnt <= temp_cnt)
             {
-                cnt = temp_cnt;
-                final_check = now_turn_check;
-                rainbow_cnt = count_rainbow_in_block(MAP, now_turn_check);
-            }
-
-            if (cnt == temp_cnt)
-            {
-                int temp_rainbow_cnt = count_rainbow_in_block(MAP, now_turn_check);
-                if (temp_rainbow_cnt >= rainbow_cnt)
+                if (cnt == temp_cnt)
                 {
-                    rainbow_cnt = temp_rainbow_cnt;
+                    int temp_rainbow_cnt = count_rainbow_in_block(MAP, now_turn_check);
+                    if (temp_rainbow_cnt >= rainbow_cnt)
+                    {
+                        rainbow_cnt = temp_rainbow_cnt;
+                        cnt = temp_cnt;
+                        final_check = now_turn_check;
+                    }
+                }
+                else
+                {
                     cnt = temp_cnt;
                     final_check = now_turn_check;
+                    rainbow_cnt = count_rainbow_in_block(MAP, now_turn_check);
                 }
             }
 
@@ -277,7 +279,8 @@ int main()
             cin >> MAP[i][j];
         }
     }
-    while (1)
+    int n = 1;
+    while (n--)
     {
         if (flag == 1)
             break;

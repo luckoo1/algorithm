@@ -2,6 +2,7 @@
 #include <vector>
 #include <queue>
 using namespace std;
+#define PRINT 0
 
 struct DATA
 {
@@ -20,6 +21,7 @@ int DC[4] = {-1, 1, 0, 0};
 int answer = 0;
 int flag = 0;
 
+#if PRINT == 1
 void print_vec(vector<vector<int>> a)
 {
     for (int i = 1; i <= N; i++)
@@ -45,8 +47,9 @@ void print(vector<vector<bool>> a)
     }
     cout << endl;
 }
+#endif
 
-vector<vector<bool>> reset_rainbow_check(vector<vector<int>> MAP, vector<vector<bool>> total_visited)
+void reset_rainbow_check(vector<vector<int>> MAP, vector<vector<bool>> &total_visited)
 {
     for (int i = 1; i <= N; i++)
     {
@@ -58,10 +61,9 @@ vector<vector<bool>> reset_rainbow_check(vector<vector<int>> MAP, vector<vector<
             }
         }
     }
-    return total_visited;
 }
 
-vector<vector<bool>> reset_check(vector<vector<bool>> bool_vec)
+void reset_check(vector<vector<bool>> &bool_vec)
 {
     for (int i = 1; i <= N; i++)
     {
@@ -70,24 +72,8 @@ vector<vector<bool>> reset_check(vector<vector<bool>> bool_vec)
             bool_vec[i][j] = false;
         }
     }
-    return bool_vec;
 }
 
-int count_rainbow_in_block(vector<vector<int>> MAP, vector<vector<bool>> now_turn_check)
-{
-    int cnt;
-    for (int i = 1; i <= N; i++)
-    {
-        for (int j = 1; j <= N; j++)
-        {
-            if (MAP[i][j] == 0 && now_turn_check[i][j] == true)
-            {
-                cnt++;
-            }
-        }
-    }
-    return cnt;
-}
 
 void rotate(vector<vector<int>> &MAP)
 {
@@ -166,41 +152,21 @@ void delete_block(vector<vector<bool>> final_check, vector<vector<int>> &MAP)
     answer += temp_ans*temp_ans;
 }
 
-int check_finish(vector<vector<bool>> now_turn_check,vector<vector<int>> MAP)
-{
-    int cnt = 0;
-    for (int i = 1; i <= N; i++)
-    {
-        for (int j = 1; j <= N; j++)
-        {
-            if(MAP[i][j] == -1)
-                continue;
-            if(MAP[i][j] == 0)
-                continue;
-            if(MAP[i][j] == 7)
-                continue;
-            if(now_turn_check[i][j]==true)
-                cnt++;
-        }
-    }
-
-
-    return cnt;
-}
 
 void bfs(vector<vector<int>> &MAP)
 {
     queue<DATA> q;
-    vector<vector<bool>> total_visited(N + 1, vector<bool>(N + 1, 0));
-    vector<vector<bool>> now_turn_check(N + 1, vector<bool>(N + 1, 0));
-    vector<vector<bool>> final_check(N + 1, vector<bool>(N + 1, 0));
-    int cnt = 0;
+    vector<vector<bool>> total_visited(N + 1, vector<bool>(N + 1, false));
+    vector<vector<bool>> now_turn_check(N + 1, vector<bool>(N + 1, false));
+    vector<vector<bool>> final_check(N + 1, vector<bool>(N + 1, false));
+    int block_cnt = 0;
     int rainbow_cnt = 0;
 
     for (int i = 1; i <= N; i++)
     {
         for (int j = 1; j <= N; j++)
         {
+            /*1. 한 블락씩 확인하자*/
             if (total_visited[i][j] == true)
                 continue;
             if (MAP[i][j] == 0 || MAP[i][j] == -1 || MAP[i][j] == 7)
@@ -209,7 +175,9 @@ void bfs(vector<vector<int>> &MAP)
             q.push(DATA(i, j));
             total_visited[i][j] = true;
             now_turn_check[i][j] = true;
-            int temp_cnt = 0;
+
+            int temp_block_cnt = 1;
+            int temp_rainbow_cnt = 0;
 
             int color = MAP[i][j];
             while (!q.empty())
@@ -230,55 +198,83 @@ void bfs(vector<vector<int>> &MAP)
                         if (total_visited[move_r][move_c] == false)
                         {
                             q.push(DATA(move_r, move_c));
+                            /*total_visited는 BFS함수 호출하는 한턴에서 check*/
                             total_visited[move_r][move_c] = true;
+                            /*now_turn_check는 하나의 spread가 있을때 check*/
                             now_turn_check[move_r][move_c] = true;
-                            temp_cnt++;
+                            temp_block_cnt++;
+                            if(MAP[move_r][move_c] == 0)
+                                temp_rainbow_cnt++;
                         }
                     }
                 }
             }
-
-
-            if (cnt <= temp_cnt)
+            int normal_block_cnt = temp_block_cnt - temp_rainbow_cnt;
+            /*
+            flag가 1이면 계속 진행한다
+            모든 탐색이 끝났을때 flag가 0이면 답이 도출된것
+            */
+            if(temp_block_cnt > 1)
             {
-                if (cnt == temp_cnt)
+                flag = 1; 
+            }
+            /*
+            final check는 없어질 block을 ture처리하는것
+            가장 큰 block을 찾기 위한 조건문
+            */
+            if(temp_block_cnt > block_cnt)
+            {
+                block_cnt = temp_block_cnt;
+                rainbow_cnt = temp_rainbow_cnt;
+                final_check = now_turn_check;
+            }
+            /*block의 크기가 같으면 무지개block의 수로 판단*/
+            if(temp_block_cnt == block_cnt)
+            {
+                if(temp_rainbow_cnt >= rainbow_cnt)
                 {
-                    int temp_rainbow_cnt = count_rainbow_in_block(MAP, now_turn_check);
-                    if (temp_rainbow_cnt > rainbow_cnt)
-                    {
-                        rainbow_cnt = temp_rainbow_cnt;
-                        cnt = temp_cnt;
-                        final_check = now_turn_check;
-                    }
-                }
-                else
-                {
-                    cnt = temp_cnt;
+                    block_cnt = temp_block_cnt;
+                    rainbow_cnt = temp_rainbow_cnt;
                     final_check = now_turn_check;
                 }
             }
 
-
-            int temp_flag = check_finish(now_turn_check,MAP);
-            if(flag < temp_flag)
-            {
-                flag = temp_flag;
-            }
-            now_turn_check = reset_check(now_turn_check);
-            total_visited = reset_rainbow_check(MAP, total_visited);
+            /*now_turn_check은 전부다 false처리*/
+            reset_check(now_turn_check);
+            /*now_turn_check에서 무지개만 false처리*/
+            reset_rainbow_check(MAP,total_visited);
         }
     }
+    /*final_check부분을 없애자*/
     delete_block(final_check, MAP);
-    gravity(MAP);
-    rotate(MAP);
-    gravity(MAP);
-
-    print_vec(MAP);
-    cout<<endl;
+    #if PRINT == 1
+    cout<<"FINAL"<<endl;
     print(final_check);
-    cout<<endl;
+    cout<<"DELETE"<<endl;
+    print_vec(MAP);
+    #endif
+
+    gravity(MAP);
+    #if PRINT == 1
+    cout<<"GRAVITY"<<endl;
+    print_vec(MAP);
+    #endif
+    rotate(MAP);
+    #if PRINT == 1
+    cout<<"ROTATE"<<endl;
+    print_vec(MAP);
+    #endif
+    gravity(MAP);
+    #if PRINT == 1
+    cout<<"AFTER MAP"<<endl;
+    print_vec(MAP);
+    cout<<"FLAG"<<endl;
+    cout<<flag<<endl;
+    #endif
 
 }
+
+
 int main()
 {
     cin >> N >> M;
@@ -291,12 +287,14 @@ int main()
         }
     }
     while(1){
-        if(flag ==1)
-            break;
-        flag = 1;
+        #if PRINT == 1
+        cout<<"BEFORE MAP"<<endl;
+        print_vec(MAP);
+        #endif
         bfs(MAP);
-        cout<<answer<<endl;
-
+        if(flag == 0)
+            break; 
+        flag = 0;
     }
 
     cout<<answer;
