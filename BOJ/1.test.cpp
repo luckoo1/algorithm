@@ -82,7 +82,6 @@ int main()
     int shark_r = 0;
     int shark_c = 0;
     int answer = MAP[0][0].num;
-
     for(int i=1;i<=16;i++)
     {
         DATA where_fish =  find_fish(MAP,i);
@@ -95,15 +94,11 @@ int main()
             int move_c = now_c+DC[(now_dir+k)%8];
             if(move_r<0||move_r>=4||move_c<0||move_c>=4)
                 continue;
-            if(MAP[move_r][move_c].num = 18)
+            if(MAP[move_r][move_c].num == 18)
                 continue;
-            if(move_r == shark_r && move_c == shark_c)
-                continue;
-            change_location(MAP,now_r,now_c,move_r,move_c);
 
+            change_location(MAP,now_r,now_c,move_r,move_c);
             break;
         }
     }
-    print(MAP);
-
 }
