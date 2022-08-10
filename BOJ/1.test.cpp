@@ -1,9 +1,11 @@
 #include <iostream>
 #include <vector>
 using namespace std;
+#define PRINT 1
 
 int DR[8] = {-1, -1, 0, 1, 1, 1, 0, -1};
 int DC[8] = {0, -1, -1, -1, 0, 1, 1, 1};
+
 
 struct FISH
 {
@@ -26,6 +28,19 @@ struct DATA
         this->c = c;
     }
 };
+
+print(vector<vector<FISH>> MAP)
+{
+    for(int i=0;i<4;i++)
+    {
+        for(int j=0;j<4;j++)
+        {
+            cout<<MAP[i][j].num<<" ";
+        }
+        cout<<endl;
+    }
+}
+
 
 DATA find_fish(vector<vector<FISH>> MAP,int number)
 {
@@ -63,28 +78,32 @@ int main()
     }
     
     int shark_dir = MAP[0][0].dir;
-    MAP[0][0].dir = 18;
+    MAP[0][0].num = 18;
     int shark_r = 0;
     int shark_c = 0;
     int answer = MAP[0][0].num;
 
-    
     for(int i=1;i<=16;i++)
     {
         DATA where_fish =  find_fish(MAP,i);
         int now_r = where_fish.r;
         int now_c = where_fish.c;
+        int now_dir = MAP[now_r][now_c].dir;
         for(int k=0;k<8;k++)
         {
-            int move_r = now_r+DR[k];
-            int move_c = now_c+DC[k];
+            int move_r = now_r+DR[(now_dir+k)%8];
+            int move_c = now_c+DC[(now_dir+k)%8];
             if(move_r<0||move_r>=4||move_c<0||move_c>=4)
                 continue;
             if(MAP[move_r][move_c].num = 18)
                 continue;
+            if(move_r == shark_r && move_c == shark_c)
+                continue;
             change_location(MAP,now_r,now_c,move_r,move_c);
+
             break;
         }
     }
+    print(MAP);
 
 }
