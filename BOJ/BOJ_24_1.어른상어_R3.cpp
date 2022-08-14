@@ -1,9 +1,3 @@
-/*
-void MOVE_SHARK()함수에서
-vector<vector<vector<int>>> &MOVE_DIR
-&안썼더니 시간초과 떴다.
-*/
-
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -18,13 +12,24 @@ struct DATA
         this->smell = smell;
     }
 };
+
+struct LIVE_SHARK
+{
+    int r;
+    int c;
+    LIVE_SHARK(int r, int c)
+    {
+        this->r = r;
+        this->c = c;
+    }
+};
 int DR[4] = {-1, 1, 0, 0};
 int DC[4] = {0, 0, -1, 1};
 /*위,아래,왼,오*/
 int N, M, K;
 int flag = 0;
-
-void MOVE_SHARK(vector<vector<DATA>> &MAP, vector<int> &NOW_DIR, vector<vector<bool>> &NOW_SHARK_CHECK, vector<vector<DATA>> TEMP_MAP, int &total_shark, vector<vector<vector<int>>> &MOVE_DIR, int R, int C)
+vector<LIVE_SHARK> live_shark_vec;
+void MOVE_SHARK(vector<vector<DATA>> &MAP, vector<int> &NOW_DIR, vector<vector<bool>> &NOW_SHARK_CHECK, vector<vector<DATA>> TEMP_MAP, int &total_shark, vector<vector<vector<int>>> MOVE_DIR, int R, int C)
 {
 
     int now_num = MAP[R][C].num;
@@ -71,16 +76,23 @@ void MOVE_SHARK(vector<vector<DATA>> &MAP, vector<int> &NOW_DIR, vector<vector<b
             if (MAP[move_R][move_C].num < now_num)
             {
                 NOW_SHARK_CHECK[now_R][now_C] = false;
+                live_shark_vec[now_num] = LIVE_SHARK(-1, -1);
                 total_shark--;
                 return;
             }
-            total_shark--;
+            else
+            {
+                live_shark_vec[MAP[move_R][move_C].num] = LIVE_SHARK(-1, -1);
+                total_shark--;
+                return;
+            }
         }
 
         MAP[now_R][now_C] = DATA(now_num, K);
         MAP[move_R][move_C] = DATA(now_num, K);
         NOW_SHARK_CHECK[now_R][now_C] = false;
         NOW_SHARK_CHECK[move_R][move_C] = true;
+        live_shark_vec[now_num] = LIVE_SHARK(move_R, move_C);
         NOW_DIR[now_num] = move_DIR;
         return;
     }
@@ -91,6 +103,7 @@ void MOVE_SHARK(vector<vector<DATA>> &MAP, vector<int> &NOW_DIR, vector<vector<b
         MAP[move_R][move_C] = DATA(now_num, K);
         NOW_SHARK_CHECK[now_R][now_C] = false;
         NOW_SHARK_CHECK[move_R][move_C] = true;
+        live_shark_vec[now_num] = LIVE_SHARK(move_R, move_C);
         NOW_DIR[now_num] = move_DIR;
         return;
     }
@@ -116,9 +129,9 @@ int main()
 {
     int init_num;
     cin >> N >> M >> K;
-    vector<vector<DATA>> MAP(N+1, vector<DATA>(N+1, DATA(0, 0)));
-    vector<vector<bool>> NOW_SHARK_CHECK(N+1, vector<bool>(N+1, false));
-    vector<vector<DATA>> TEMP_MAP(N+1, vector<DATA>(N+1, DATA(0, 0)));
+    vector<vector<DATA>> MAP(N + 1, vector<DATA>(N + 1, DATA(0, 0)));
+    vector<vector<bool>> NOW_SHARK_CHECK(N + 1, vector<bool>(N + 1, false));
+    vector<vector<DATA>> TEMP_MAP(N + 1, vector<DATA>(N + 1, DATA(0, 0)));
     for (int i = 0; i < N; i++)
     {
         for (int j = 0; j < N; j++)
@@ -133,7 +146,24 @@ int main()
                 MAP[i][j] = DATA(init_num, 0);
             }
             if (init_num > 0)
+            {
                 NOW_SHARK_CHECK[i][j] = true;
+            }
+        }
+    }
+    live_shark_vec.push_back(LIVE_SHARK(0, 0));
+    for (int num = 1; num <= M; num++)
+    {
+        for (int i = 0; i < N; i++)
+        {
+            for (int j = 0; j < N; j++)
+            {
+                if(MAP[i][j].num==num)
+                {
+                    live_shark_vec.push_back(LIVE_SHARK(i, j));
+                    break;
+                }
+            }
         }
     }
 
@@ -156,6 +186,8 @@ int main()
             }
         }
     }
+
+
     int total_shark = M;
     int ans = 0;
     for (int DEP = 1; DEP <= 1000; DEP++)
@@ -166,23 +198,23 @@ int main()
         vector<vector<bool>> TEMP_NOW_SHARK_CHECK = NOW_SHARK_CHECK;
         TEMP_MAP = MAP;
         ans = DEP;
-        for (int i = 0; i < N; i++)
+        for (int i = 1; i <= M; i++)
         {
-            for (int j = 0; j < N; j++)
+            int now_r = live_shark_vec[i].r;
+            int now_c = live_shark_vec[i].c;
+
+            if (now_r == -1)
+                continue;
+            if (TEMP_NOW_SHARK_CHECK[now_r][now_c] == true)
             {
-                if (TEMP_NOW_SHARK_CHECK[i][j] == true)
-                {
-                    MOVE_SHARK(MAP, NOW_DIR, NOW_SHARK_CHECK, TEMP_MAP, total_shark, MOVE_DIR, i, j);
-                }
-                if (total_shark == 1)
-                {
-                    ans = DEP;
-                    flag = 1;
-                    break;
-                }
+                MOVE_SHARK(MAP, NOW_DIR, NOW_SHARK_CHECK, TEMP_MAP, total_shark, MOVE_DIR, now_r, now_c);
             }
-            if (flag == 1)
+            if (total_shark == 1)
+            {
+                ans = DEP;
+                flag = 1;
                 break;
+            }
         }
         DELETE_SMELL(MAP, NOW_SHARK_CHECK);
 #if PRINT == 1
@@ -202,7 +234,7 @@ int main()
             }
             cout << endl;
         }
-        cout << "NOW_SHARK : " << total_shark << endl;
+        cout << "NOW_SHARK CNT: " << total_shark << endl;
         for (int i = 0; i < N; i++)
         {
             for (int j = 0; j < N; j++)
@@ -211,6 +243,15 @@ int main()
             }
             cout << endl;
         }
+        for (int i = 1; i <= M; i++)
+        {
+            int now_r = live_shark_vec[i].r;
+            int now_c = live_shark_vec[i].c;
+            cout << i << " : " << now_r << "," << now_c << " ";
+        }
+
+        cout << endl;
+
 #endif
     }
     if (flag == 0)

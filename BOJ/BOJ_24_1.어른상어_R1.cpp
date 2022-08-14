@@ -8,6 +8,7 @@ vector<vector<vector<int>>> &MOVE_DIR
 #include <vector>
 using namespace std;
 #define PRINT 0
+
 struct DATA
 {
     int num;
@@ -31,69 +32,54 @@ void MOVE_SHARK(vector<vector<DATA>> &MAP, vector<int> &NOW_DIR, vector<vector<b
     int now_smell = MAP[R][C].smell;
     int now_R = R;
     int now_C = C;
-    int move_R;
-    int move_C;
-    int move_DIR;
 
-    bool bin_kan_check = 0;
     for (int k = 0; k < 4; k++)
     {
-        move_R = now_R + DR[MOVE_DIR[now_num][NOW_DIR[now_num]][k]];
-        move_C = now_C + DC[MOVE_DIR[now_num][NOW_DIR[now_num]][k]];
-        move_DIR = MOVE_DIR[now_num][NOW_DIR[now_num]][k];
+        int move_R = now_R + DR[MOVE_DIR[now_num][NOW_DIR[now_num]][k]];
+        int move_C = now_C + DC[MOVE_DIR[now_num][NOW_DIR[now_num]][k]];
+        int move_DIR = MOVE_DIR[now_num][NOW_DIR[now_num]][k];
         if (move_R < 0 || move_C < 0 || move_R >= N || move_C >= N)
             continue;
-        if (TEMP_MAP[move_R][move_C].num == 0)
+        
+        if (TEMP_MAP[move_R][move_C].smell == 0) /*빈 칸*/
         {
-            bin_kan_check = 1;
-            break;
-        }
-    }
-
-    if (bin_kan_check == 0)
-    {
-        for (int k = 0; k < 4; k++)
-        {
-            move_R = now_R + DR[MOVE_DIR[now_num][NOW_DIR[now_num]][k]];
-            move_C = now_C + DC[MOVE_DIR[now_num][NOW_DIR[now_num]][k]];
-            move_DIR = MOVE_DIR[now_num][NOW_DIR[now_num]][k];
-            if (move_R < 0 || move_C < 0 || move_R >= N || move_C >= N)
-                continue;
-            if (TEMP_MAP[move_R][move_C].num == now_num)
-                break;
-        }
-    }
-
-    if (bin_kan_check == 1) /*빈 칸*/
-    {
-        if (MAP[move_R][move_C].smell == K) /*상어가 있다.*/
-        {
-            if (MAP[move_R][move_C].num < now_num)
+            if (MAP[move_R][move_C].smell == K) /*상어가 있다.*/
             {
-                NOW_SHARK_CHECK[now_R][now_C] = false;
-                total_shark--;
-                return;
+                if (MAP[move_R][move_C].num < now_num)
+                {
+                    NOW_SHARK_CHECK[now_R][now_C] = false;
+                    return;
+                }
             }
-            total_shark--;
+            MAP[now_R][now_C] = DATA(now_num, K);
+            MAP[move_R][move_C] = DATA(now_num, K);
+            NOW_SHARK_CHECK[now_R][now_C] = false;
+            NOW_SHARK_CHECK[move_R][move_C] = true;
+            NOW_DIR[now_num] = move_DIR;
+            return;
         }
 
-        MAP[now_R][now_C] = DATA(now_num, K);
-        MAP[move_R][move_C] = DATA(now_num, K);
-        NOW_SHARK_CHECK[now_R][now_C] = false;
-        NOW_SHARK_CHECK[move_R][move_C] = true;
-        NOW_DIR[now_num] = move_DIR;
-        return;
     }
 
-    if (MAP[move_R][move_C].num == now_num) /*주변에 빈칸이 없다.내 냄새 구역으로*/
+    for (int k = 0; k < 4; k++)
     {
-        MAP[now_R][now_C] = DATA(now_num, K);
-        MAP[move_R][move_C] = DATA(now_num, K);
-        NOW_SHARK_CHECK[now_R][now_C] = false;
-        NOW_SHARK_CHECK[move_R][move_C] = true;
-        NOW_DIR[now_num] = move_DIR;
-        return;
+        int move_R = now_R + DR[MOVE_DIR[now_num][NOW_DIR[now_num]][k]];
+        int move_C = now_C + DC[MOVE_DIR[now_num][NOW_DIR[now_num]][k]];
+        int move_DIR = MOVE_DIR[now_num][NOW_DIR[now_num]][k];
+        if (move_R < 0 || move_C < 0 || move_R >= N || move_C >= N)
+            continue;
+
+        if (MAP[move_R][move_C].num == now_num) /*주변에 빈칸이 없다.내 냄새 구역으로*/
+        {
+            MAP[now_R][now_C] = DATA(now_num, K);
+            MAP[move_R][move_C] = DATA(now_num, K);
+            NOW_SHARK_CHECK[now_R][now_C] = false;
+            NOW_SHARK_CHECK[move_R][move_C] = true;
+            NOW_DIR[now_num] = move_DIR;
+            return;
+        }
     }
+
 }
 
 void DELETE_SMELL(vector<vector<DATA>> &MAP, vector<vector<bool>> NOW_SHARK_CHECK)
@@ -112,13 +98,27 @@ void DELETE_SMELL(vector<vector<DATA>> &MAP, vector<vector<bool>> NOW_SHARK_CHEC
     }
 }
 
+int cnt_shark(vector<vector<bool>> NOW_SHARK_CHECK)
+{
+    int cnt = 0;
+    for (int i = 0; i < N; i++)
+    {
+        for (int j = 0; j < N; j++)
+        {
+            if(NOW_SHARK_CHECK[i][j]==true)
+                cnt++;
+        }
+    }
+    return cnt;
+}
+
 int main()
 {
     int init_num;
     cin >> N >> M >> K;
-    vector<vector<DATA>> MAP(N+1, vector<DATA>(N+1, DATA(0, 0)));
-    vector<vector<bool>> NOW_SHARK_CHECK(N+1, vector<bool>(N+1, false));
-    vector<vector<DATA>> TEMP_MAP(N+1, vector<DATA>(N+1, DATA(0, 0)));
+    vector<vector<DATA>> MAP(N, vector<DATA>(N, DATA(0, 0)));
+    vector<vector<bool>> NOW_SHARK_CHECK(N, vector<bool>(N, false));
+    vector<vector<DATA>> TEMP_MAP(N, vector<DATA>(N, DATA(0, 0)));
     for (int i = 0; i < N; i++)
     {
         for (int j = 0; j < N; j++)
@@ -144,7 +144,7 @@ int main()
         cin >> init_num;
         NOW_DIR.push_back(init_num - 1); // dir은 -1해서 넣음(0,1,2,3)
     }
-    vector<vector<vector<int>>> MOVE_DIR(M + 3, vector<vector<int>>(4, vector<int>(4, 0)));
+    vector<vector<vector<int>>> MOVE_DIR(M + 1, vector<vector<int>>(4, vector<int>(4, 0)));
     for (int i = 1; i <= M; i++) //상어번호는 +1해서 넣음(1,2,3..M)
     {
         for (int j = 0; j < 4; j++)
@@ -174,7 +174,7 @@ int main()
                 {
                     MOVE_SHARK(MAP, NOW_DIR, NOW_SHARK_CHECK, TEMP_MAP, total_shark, MOVE_DIR, i, j);
                 }
-                if (total_shark == 1)
+                if (cnt_shark(NOW_SHARK_CHECK) == 1)
                 {
                     ans = DEP;
                     flag = 1;
@@ -202,7 +202,7 @@ int main()
             }
             cout << endl;
         }
-        cout << "NOW_SHARK : " << total_shark << endl;
+        cout << "NOW_SHARK : " << cnt_shark(NOW_SHARK_CHECK)<<endl;
         for (int i = 0; i < N; i++)
         {
             for (int j = 0; j < N; j++)
