@@ -3,60 +3,37 @@
 #include <iostream>
 using namespace std;
 
-vector<int> vec;
-int ans = 0;
-
-void print_vec()
+int solution(int n)
 {
-    cout<<"PRINT_VEC"<<" : ";
-    for(int i=0;i<vec.size();i++)
+    vector<int> memorizaiton(n, 1);
+    int idx = 2;
+    while (memorizaiton[idx] < n)
     {
-        cout<<vec[i]<<" ";
+        memorizaiton[idx] = memorizaiton[idx - 1] * idx;
+        idx++;
     }
-    cout<<endl;
-}
 
-void dfs(int n,int sum,int k)
+    int result = 0;
+    for (int wide = n; wide >= (n/2) -1 ; wide--)
+    {   
+    }
+
+    return result;
+}
+int main()
 {
-    if(!vec.empty())
-    {
-        if(vec[0]<(n/2))
-            return;
-    }
-
-    if(sum == n)
-    {
-        int temp_ans = (vec[0]) * (vec.size());
-        if(temp_ans>ans)
-            ans = temp_ans;
-        return;
-    }
-
-    for(int i = k;i>=1;i--)
-    {
-        if(sum > n)
-            continue;
-
-        sum = sum + i;
-        vec.push_back(i);
-
-        dfs(n,sum, i-1);
-
-        vec.pop_back();
-        sum = sum-i;
-
-    }
+    int ans = solution(10);
+    cout << ans;
 }
 
-int solution(int n) {
-    dfs(n,0,n);
-    //cout<<ans;
-    return ans;
-}
 /*
-10
-21
+int maxNfactorial = n -1;
+int result = 0;
 
-5
-8
+for (int i = 0 ; i<= maxNfactorial; i++)
+{
+    if (result <  (wide - memorizaiton[i]) * (i+1){
+    result = wide - memorizaiton[n]) * (i+1)
+}
+
 */
