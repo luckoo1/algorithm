@@ -54,7 +54,7 @@ int solution(int n) {
 
 int main()
 {
-    int ans = solution(12);
+    int ans = solution(11);
     cout<<ans;
 }
 /*
