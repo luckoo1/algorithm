@@ -20,36 +20,37 @@ struct DATA
 {
     int r;
     int c;
-    int d;
-    DATA(int r, int c, int d)
+    int dist;
+    int score;
+
+    DATA(int r, int c, int dist, int score)
     {
         this->r = r;
         this->c = c;
-        this->d = d;
+        this->dist = dist;
+        this->score = score;
     }
 };
 int DR[4] = {1, -1, 0, 0};
 int DC[4] = {0, 0, 1, -1};
-vector<vector<int>> answer;
+
 queue<DATA> q;
 
-int bfs(int x, int y, vector<vector<int>> board, int a_x, int a_y)
+vector<vector<int>> solution(int x, int y, vector<vector<int>> board)
 {
     int r_size = board.size();
     int c_size = board[0].size();
-
     vector<vector<int>> diff_map(r_size, vector<int>(c_size, 0));
     vector<vector<bool>> check(r_size, vector<bool>(c_size, false));
 
-    q.push(DATA(x, y, 0));
-    check[x][y] = true;
-    int score = board[x][y];
+    q.push(DATA(x-1, y-1, 0,board[x-1][y-1]));
+    check[x-1][y-1] = true;
 
     while (!q.empty())
     {
         int start_r = q.front().r;
         int start_c = q.front().c;
-        int start_d = q.front().d;
+        int start_dist = q.front().dist;
         q.pop();
         for (int k = 0; k < 4; k++)
         {
@@ -63,41 +64,24 @@ int bfs(int x, int y, vector<vector<int>> board, int a_x, int a_y)
             {
                 if (board[move_r][move_c] == board[start_r][start_c])
                 {
-                    // q.push(DATA(move_r,move_c,start_d));
+                    // q.push(DATA(move_r,move_c,start_dist));
                     // check[move_r][move_c] = true;
-                    if (diff_map[move_r][move_c] > start_d)
+                    if (diff_map[move_r][move_c] > start_dist)
                     {
-                        diff_map[move_r][move_c] = start_d;
+                        diff_map[move_r][move_c] = start_dist;
                     }
                 }
                 continue;
             }
-
             else
             {
-                q.push(DATA(move_r, move_c, start_d + 1));
+                q.push(DATA(move_r, move_c, start_dist + 1));
                 check[move_r][move_c] = true;
-                diff_map[move_r][move_c] = start_d + 1;
+                diff_map[move_r][move_c] = start_dist + 1;
             }
         }
     }
-    // cout<<x<<","<<y<<endl;
-    // print_vec(diff_map);
 
-    return diff_map[a_x][a_y];
-}
-vector<vector<int>> solution(int x, int y, vector<vector<int>> board)
-{
-    int r_size = board.size();
-    int c_size = board[0].size();
-    vector<vector<int>> diff_map(r_size, vector<int>(c_size, 0));
-    for (int i = 0; i < board.size(); i++)
-    {
-        for (int j = 0; j < board[0].size(); j++)
-        {
-            diff_map[i][j] = bfs(i, j, board, x - 1, y - 1);
-        }
-    }
     map<int, int> hash_map;
     for (int i = 0; i < diff_map.size(); i++)
     {
@@ -108,7 +92,9 @@ vector<vector<int>> solution(int x, int y, vector<vector<int>> board)
     }
     int max_num = 0;
     int big_diff = 0;
+
     print_vec(diff_map);
+
     for (auto iter = hash_map.begin(); iter != hash_map.end(); iter++)
     {
         if (max_num <= iter->second)
