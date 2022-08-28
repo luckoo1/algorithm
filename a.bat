@@ -1,3 +1,3 @@
 @ECHO OFF
-g++ test.cpp
+g++ test1.cpp
 a
