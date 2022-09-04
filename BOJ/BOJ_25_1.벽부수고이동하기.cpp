@@ -61,42 +61,8 @@ int main()
                 q.push(DATA(nx, ny, z));
             }
         }
-        // cout<<"PRINT"<<endl;d
-        // for (int i = 0; i < n; i++)
-        // {
-        //     for (int j = 0; j < m; j++)
-        //     {
-        //         cout << d[i][j][0] << " ";
-        //     }
-        //     cout << endl;
-        // }
-        // cout << endl;
-        // for (int i = 0; i < n; i++)
-        // {
-        //     for (int j = 0; j < m; j++)
-        //     {
-        //         cout << d[i][j][1] << " ";
-        //     }
-        //     cout << endl;
-        // }
     }
-    // for (int i = 0; i < n; i++)
-    // {
-    //     for (int j = 0; j < m; j++)
-    //     {
-    //         cout << d[i][j][0] << " ";
-    //     }
-    //     cout << endl;
-    // }
-    // cout << endl;
-    // for (int i = 0; i < n; i++)
-    // {
-    //     for (int j = 0; j < m; j++)
-    //     {
-    //         cout << d[i][j][1] << " ";
-    //     }
-    //     cout << endl;
-    // }
+
     if (d[n - 1][m - 1][0] != 0 && d[n - 1][m - 1][1] != 0)
     {
         cout << min(d[n - 1][m - 1][0], d[n - 1][m - 1][1]);
