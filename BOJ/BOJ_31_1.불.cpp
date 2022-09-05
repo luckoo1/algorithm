@@ -104,6 +104,10 @@ void PERSON_bfs(vector<string> MAP, vector<vector<int>> FIRE_dist, int N, int M)
                 continue;
             if (PERSON_dist[r][c] + 1 >= FIRE_dist[MR][MC] && FIRE_dist[MR][MC])  /*여기가 핵심!!*/
                 continue;
+            /*
+            불이 지나간곳만 거리 본다.
+            이유는 불이 안지나간곳중 빈칸은('.')은 FIRE DIST가 0이기 때문 무조건 사람이 못지나감
+            */
             q.push(DATA(MR, MC));
             PERSON_dist[MR][MC] = PERSON_dist[r][c] + 1;
         }
@@ -139,3 +143,14 @@ int main()
         PERSON_bfs(MAP, dist, N, M);
     }
 }
+
+/*
+1
+5 6
+*#.##
+#...#
+#...#
+#...#
+#.@.#
+#####
+*/
