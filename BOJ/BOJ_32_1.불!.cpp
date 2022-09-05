@@ -4,18 +4,6 @@
 #include <queue>
 using namespace std;
 
-void PRINT_MAP(vector<string> MAP)
-{
-    for (int i = 0; i < MAP.size(); i++)
-    {
-        for (int j = 0; j < MAP[i].size(); j++)
-        {
-            cout << MAP[i][j] << " ";
-        }
-        cout << endl;
-    }
-}
-
 struct DATA
 {
     int r;
@@ -39,10 +27,9 @@ vector<vector<int>> FIRE_bfs(vector<string> MAP, int N, int M)
     {
         for (int j = 0; j < MAP[i].size(); j++)
         {
-            if (MAP[i][j] == '*')
+            if (MAP[i][j] == 'F')
             {
                 q.push(DATA(i, j));
-                FIRE_dist[i][j]= 1;/*여기가 핵심!!*/
             }
         }
     }
@@ -78,10 +65,9 @@ void PERSON_bfs(vector<string> MAP, vector<vector<int>> FIRE_dist, int N, int M)
     {
         for (int j = 0; j < MAP[i].size(); j++)
         {
-            if (MAP[i][j] == '@')
+            if (MAP[i][j] == 'J')
             {
                 q.push(DATA(i, j));
-                PERSON_dist[i][j]= 1;/*여기가 핵심!!*/
             }
         }
     }
@@ -97,12 +83,12 @@ void PERSON_bfs(vector<string> MAP, vector<vector<int>> FIRE_dist, int N, int M)
             int MC = c + DC[k];
             if (MR < 0 || MC < 0 || MR >= N || MC >= M)
             {
-                cout << PERSON_dist[r][c] << endl;
+                cout << PERSON_dist[r][c]+1 << endl;
                 return;
             }
             if (MAP[MR][MC] == '#' || PERSON_dist[MR][MC])
                 continue;
-            if (PERSON_dist[r][c] + 1 >= FIRE_dist[MR][MC] && FIRE_dist[MR][MC])  /*여기가 핵심!!*/
+            if (PERSON_dist[r][c] + 1 >= FIRE_dist[MR][MC] && FIRE_dist[MR][MC])
                 continue;
             q.push(DATA(MR, MC));
             PERSON_dist[MR][MC] = PERSON_dist[r][c] + 1;
@@ -111,7 +97,6 @@ void PERSON_bfs(vector<string> MAP, vector<vector<int>> FIRE_dist, int N, int M)
 
     cout << "IMPOSSIBLE" << endl;
 }
-
 
 vector<string> MAKE_MAP(int N)
 {
@@ -128,14 +113,9 @@ vector<string> MAKE_MAP(int N)
 int main()
 {
     //freopen("Input.txt", "r", stdin);
-    int CNT;
-    int M, N;
-    cin >> CNT;
-    while (CNT--)
-    {
-        cin >> M >> N;
-        vector<string> MAP = MAKE_MAP(N);
-        vector<vector<int>> dist = FIRE_bfs(MAP, N, M);
-        PERSON_bfs(MAP, dist, N, M);
-    }
+    int N, M;
+    cin >> N >> M;
+    vector<string> MAP = MAKE_MAP(N);
+    vector<vector<int>> dist = FIRE_bfs(MAP, N, M);
+    PERSON_bfs(MAP, dist, N, M);
 }
