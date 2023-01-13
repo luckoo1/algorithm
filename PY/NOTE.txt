@@ -1,0 +1,11 @@
+1. 
+List comprehension
+[ ( 변수를 활용한 값 ) for ( 사용할 변수 이름 ) in ( 순회할 수 있는 값 )]
+array = [[0]*3 for _ in range(4)]
+
+2.
+local variable '_' referenced before assignment
+함수밖에서 전역변수를 사용했다고 하더라도 함수안에서 global전역변수를 명시해줘야한다.
+함수밖에서 "ans = 0" 선언했다면
+함수안에서 "global ans" 선언해야함
+참조 : https://sikaleo.tistory.com/99
