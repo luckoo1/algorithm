@@ -1,0 +1,66 @@
+freopen("Input.txt", "r", stdin);
+1.배열 초기화는 전역변수는 BSS 영역에서 자동으로 0으로 초기화되만 지역변수 STACK영역에서 자동으로 초기화 되지 않는다.
+2.string에서 한 문자만 빼면 char형식으로 저장해야한다.
+3.double a = (double)b / (double)c; 처럼 b와 c를 double형으로 만들어라(PROG_37_1)
+4.int a = char - 48;  //char를 int로 만드는법
+5.  3번한다.
+    int n=3;
+    while(n--)
+    {
+        cout<<n<<endl;  //2,1,0
+    }
+6.map관련문제는 범위를 잘파악하자!(세로길이가 [i][j]에서 i로 와야지)
+7.전역변수로 vector<int> vec; 선언시 사이즈 주의하자
+함수안에서만 범위가 작동한다.
+즉 범위내에서 초기화해서 작동하는 것으로 보인다.
+vector<int> vec;
+void func()
+{
+    cout << vec.size() << endl; // 0
+}
+
+int main()
+{
+    vector<int> vec(4, 0);
+    cout << vec.size() << endl; // 4
+    func();
+}
+8.벡터 첫번째 원소넣는법
+9.deque<int> map[10][10]
+map[0][1].push_back(3);방식으로 사용가능(BOJ_5_5.나무재테크.cpp)
+10.초과 이상 잘 파악하기
+sort_rule잘사용하기(BOJ_7_1.이차원배열.cpp)
+11.문제에서 [0][0]을 [1][1]로 정의함을 잊었다.
+이동이 모두 끝난 뒤, 2개 이상의 파이어볼이 있는 칸에서는 다음과 같은 일이 일어난다(BOJ_11_1.마법사상어와파이어볼.cpp)
+12.이분탐색은 규칙이 있다. 하지만 bool check하는 부분의 생각싸움인듯
+13.
+이진tree구조인데 map과 다른점이 있다.
+set is an associative container that conains a sorted set of nuique objects of type key
+set은 key유형의 고유한 객체 (정렬된)집합을 포함하는 연관 컨테이너를 말한다.
+나는 쉽게 tree에 저장한다고 생각하기로 했다. tree로 저장하니깐 당연히 정렬이 되고
+map은 hash처럼 key와 value로 저장한다.
+
+multiset과 set의 차이는 set은 요소를 추가할때 중복이 있으면 넣지 않는다
+예를들어 1,1,2,3,4를 넣으면 1이 중복되니 set에는 1,2,3,4로 저장된다
+반면 multiset은 중복을 허락해서 1,1,2,3,4,5로 저장한다.
+
+map은 자동적으로 작은거부터 저장한다.(자동으로 오름차순)
+
+set<int, greater<int>>;
+set<int, less<int>>;
+
+14.
+★min과 max값 뽑기
+auto iter = --setnum.end();
+cout << (*iter) << endl;//제일 작은수 
+iter = setnum.begin();
+cout << (*iter) << endl;//제일큰수
+
+15.모듈(%)는 언제 제자리로 돌아오는지 파악하면 된다.(BOJ_18_1.낚시왕.cpp)
+16.=과 == 실수포인트
+17.★void함수가 아니면 무조건 return 값을 넣어야한다.(BOJ_23_1.청소년상어.cpp)
+18.getline(cin, str); : 한줄 다 받는법
+19.함수인자로 넘길때 웬만하면 &쓰자. 속도차이가 난다(BOJ_24_1.어른상어_R1.cpp)
+20.실수포인트 :  q.push(DATA(MOVE_R, MOVE_C, NOW_CNT++,NOW_ability));
+++쓰면안된다.
+q.push(DATA(MOVE_R, MOVE_C, NOW_CNT+1,NOW_ability+1));써야한다.
