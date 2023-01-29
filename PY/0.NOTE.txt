@@ -5,7 +5,7 @@ example :
 array = [[0]*3 for _ in range(4)]
 a = [list(map(int, input().split())) for _ in range(n)]
 
-2.
+2.전역변수
 local variable '_' referenced before assignment
 함수밖에서 전역변수를 사용했다고 하더라도 함수안에서 global전역변수를 명시해줘야한다.
 함수밖에서 "ans = 0" 선언했다면
