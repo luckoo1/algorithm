@@ -5,6 +5,9 @@ example :
 array = [[0]*3 for _ in range(4)]
 a = [list(map(int, input().split())) for _ in range(n)]
 
+yes_list = [i for i in yes_list if i not in del_list]
+del_list에 있는값들을 지워서 yes_list에 넣는다.
+
 2.전역변수
 local variable '_' referenced before assignment
 함수밖에서 전역변수를 사용했다고 하더라도 함수안에서 global전역변수를 명시해줘야한다.
@@ -32,3 +35,6 @@ x = input("안내문 출력")
 함수
 반환값 : list(str)
 a,b = input().split()
+
+6.list.remove()하면 list크기가 줄어드는걸 알자
+for문쓸때 주의!
