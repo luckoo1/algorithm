@@ -38,3 +38,8 @@ a,b = input().split()
 
 6.list.remove()하면 list크기가 줄어드는걸 알자
 for문쓸때 주의!
+
+7.정렬규칙만들기
+lst = [[1,2,5],[6,7,2],[3,4,1],[8,9,7]]
+lst.sort(key = lambda x:x[1],reverse=True)
+print(lst)
