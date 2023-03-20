@@ -26,6 +26,12 @@ x = input("안내문 출력")
 반환값 : list(str)
 a,b = input().split()
 
+5.sorted()
+sorted(정렬할 데이터, key 파라미터, reverse 파라미터)
+lst = [[1,2,5],[6,7,2],[3,4,1],[8,9,7]]
+lst= sorted(lst, key = lambda x: x[1],reverse = True)
+print(lst)
+
 LIST///////////////////////////////////////////////////////////////////////
 1. List comprehension
 [ ( 변수를 활용한 값 ) for ( 사용할 변수 이름 ) in ( 순회할 수 있는 값 )]
