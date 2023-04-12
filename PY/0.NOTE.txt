@@ -1,21 +1,11 @@
-1. 
-List comprehension
-[ ( 변수를 활용한 값 ) for ( 사용할 변수 이름 ) in ( 순회할 수 있는 값 )]
-example :
-array = [[0]*3 for _ in range(4)]
-a = [list(map(int, input().split())) for _ in range(n)]
-
-yes_list = [i for i in yes_list if i not in del_list]
-del_list에 있는값들을 지워서 yes_list에 넣는다.
-
-2.전역변수
+1.전역변수
 local variable '_' referenced before assignment
 함수밖에서 전역변수를 사용했다고 하더라도 함수안에서 global전역변수를 명시해줘야한다.
 함수밖에서 "ans = 0" 선언했다면
 함수안에서 "global ans" 선언해야함
 참조 : https://sikaleo.tistory.com/99
 
-3.map()
+2.map()
 함수
 반환값 : map객체
 형식 : map(func,iter)
@@ -26,15 +16,82 @@ map 함수의 반환 값은 map객체 이기 때문에 해당 자료형을 list 
 map(적용시킬 함수, 적용할 값들) 이런 식인 거죠.
 예를 들어 첫 번째 인자가 값에 +1을 더해주는 함수라고 하고 두번째 인자에 [1, 2, 3, 4, 5] 라는 리스트를 집어넣으면
 
-4.input()
+3.input()
 함수
 반환값 : str
 x = input("안내문 출력")
 
-5.input().split()
+4.input().split()
 함수
 반환값 : list(str)
 a,b = input().split()
 
-6.list.remove()하면 list크기가 줄어드는걸 알자
+5.sorted()
+sorted(정렬할 데이터, key 파라미터, reverse 파라미터)
+lst = [[1,2,5],[6,7,2],[3,4,1],[8,9,7]]
+lst= sorted(lst, key = lambda x: x[1],reverse = True)
+print(lst)
+
+LIST///////////////////////////////////////////////////////////////////////
+1. List comprehension
+[ ( 변수를 활용한 값 ) for ( 사용할 변수 이름 ) in ( 순회할 수 있는 값 )]
+example :
+array = [[0]*3 for _ in range(4)]
+a = [list(map(int, input().split())) for _ in range(n)]
+
+yes_list = [i for i in yes_list if i not in del_list]
+del_list에 있는값들을 지워서 yes_list에 넣는다.
+
+2.list.remove()하면 list크기가 줄어드는걸 알자
 for문쓸때 주의!
+
+3.정렬규칙만들기
+lst = [[1,2,5],[6,7,2],[3,4,1],[8,9,7]]
+lst= sorted(lst, key = lambda x: x[1],reverse = True)
+print(lst)
+
+4.List 중복없애기
+list(set(example))
+
+Dictionary///////////////////////////////////////////////////////////////////////
+1.빈딕셔너리 생성
+dict1 = {} 
+dict2 = dict()
+
+2.key값만 출력
+for key in x.keys():
+    print(key, end=' ')
+
+3.value만 출력
+for key in x.value():
+    print(key, end=' ')
+
+4.key로 정렬
+dic = {'pop': 3100, 'classic': 1450, 'trot':620}
+# key 값을 기준으로 정렬된 (key,value) 원소쌍을 가진 리스트 출력 
+print(sorted(dic.items()))
+
+# key 값을 기준을 정렬된 딕셔너리 생성 
+dic = dict(sorted(dic.items()))
+print(dic)
+
+5.value로 정렬
+# value 값을 기준으로 오름차순 정렬하여 (k, v) 리스트 반환
+print(sorted(dic.items(), key=lambda x:x[1]))
+# 위 값을 딕셔너리로 변환
+print(dict(sorted(dic.items(), key=lambda x:x[1])))
+# value 값을 기준으로 오름차순 정렬
+print(sorted(dic,key=lambda x:dic[x]))
+
+6.dic.items()
+딕셔너리(dictionary)는 items()함수를 사용하면 딕셔너리에 있는 키와 값들의 쌍을 얻을 수 있습니다.
+items 함수는 Key와 Value의 쌍을 튜플로 묶은 값을 dict_items 객체로 돌려준다.
+car = {"name" : "BMW", "price" : "7000"} 
+car.items() 
+결과 : dict_items([('name', 'BMW'), ('price', '7000')]) 
+
+for key, val in car.items():
+    print("key : {} value : {}".format(key,val)) 
+결과
+key : name value : BMW 
+key : price value : 7000
