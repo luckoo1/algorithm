@@ -25,6 +25,7 @@ int ans = 999;
 
 void spread()
 {
+    return;
 }
 
 void dfs(int dep, int k,vector<vector<int>> &MAP,vector<DATA> &zero)
@@ -32,6 +33,14 @@ void dfs(int dep, int k,vector<vector<int>> &MAP,vector<DATA> &zero)
     if (dep == 3)
     {
         spread();
+        for(int i=0;i<N;i++)
+        {
+            for(int j=0;j<M;j++)
+            {
+                cout<<MAP[i][j]<<" ";
+            }
+            cout<<endl;
+        }
         return;
     }
     for(int i=k;i<zero.size();i++)
@@ -65,6 +74,9 @@ int main()
             {
                 q.push(DATA(i, j));
                 check[i][j] = true;
+            }
+            if(MAP[i][j]==0)
+            {
                 zero.push_back(DATA(i,j));
             }
         }
