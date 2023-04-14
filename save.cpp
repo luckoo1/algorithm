@@ -16,18 +16,34 @@ struct DATA
 int N, M;
 
 vector<vector<bool>> check(10, vector<bool>(10, false));
+vector<bool> wall_check(999,false);
+queue<DATA> q;
+
 int DR[4] = {1, -1, 0, 0};
 int DC[4] = {0, 0, 1, -1};
+int ans = 999;
 
-void dfs(int dep, int k,vector<DATA> &zero)
+void spread()
+{
+}
+
+void dfs(int dep, int k,vector<vector<int>> &MAP,vector<DATA> &zero)
 {
     if (dep == 3)
     {
+        spread();
         return;
     }
-    for(int i=0;i<zero.size();i++)
+    for(int i=k;i<zero.size();i++)
     {
-        
+        if(wall_check[i]==false)
+        {
+            wall_check[i]=true;
+            MAP[zero[i].r][zero[i].c]=1;
+            dfs(dep+1,k+1,MAP,zero);
+            wall_check[i]=false;
+            MAP[zero[i].r][zero[i].c]=0;
+        }
     }
 
 }
@@ -39,7 +55,6 @@ int main()
 
     vector<vector<int>> MAP(N, vector<int>(M, 0));
     vector<DATA> zero;
-    queue<DATA> q;
 
     for (int i = 0; i < N; i++)
     {
@@ -55,5 +70,5 @@ int main()
         }
     }
 
-    dfs(0, 0,zero);
+    dfs(0, 0,MAP,zero);
 }
