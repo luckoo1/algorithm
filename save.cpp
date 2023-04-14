@@ -15,8 +15,22 @@ struct DATA
 };
 int N, M;
 
-int DR[4]={1,-1,0,0};
-int DC[4]={0,0,1,-1};
+vector<vector<bool>> check(10, vector<bool>(10, false));
+int DR[4] = {1, -1, 0, 0};
+int DC[4] = {0, 0, 1, -1};
+
+void dfs(int dep, int k,vector<DATA> &zero)
+{
+    if (dep == 3)
+    {
+        return;
+    }
+    for(int i=0;i<zero.size();i++)
+    {
+        
+    }
+
+}
 
 int main()
 {
@@ -24,7 +38,7 @@ int main()
     cin >> N >> M;
 
     vector<vector<int>> MAP(N, vector<int>(M, 0));
-    vector<vector<bool>> check(N, vector<bool>(M, false));
+    vector<DATA> zero;
     queue<DATA> q;
 
     for (int i = 0; i < N; i++)
@@ -36,27 +50,10 @@ int main()
             {
                 q.push(DATA(i, j));
                 check[i][j] = true;
+                zero.push_back(DATA(i,j));
             }
         }
     }
 
-    while(!q.empty())
-    {
-        int now_r = q.front().r;
-        int now_c = q.front().c;
-
-    }    
-
-
+    dfs(0, 0,zero);
 }
-
-/*
-7 7
-2 0 0 0 1 1 0
-0 0 1 0 1 2 0
-0 1 1 0 1 0 0
-0 1 0 0 0 0 0
-0 0 0 0 0 1 1
-0 1 0 0 0 0 0
-0 1 0 0 0 0 0
-*/
