@@ -28,6 +28,36 @@ int main(void)
     return 0;
 }
 //////////////////////////////////////////////////////////////////////////
+#include <iostream>
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+bool sort_rule(pair<int, string> a,pair<int, string> b)
+{
+    return a.second > b.second;
+}
+
+int main(void)
+{
+    vector<pair<int, string>> v;
+    v.push_back(pair<int, string>(99, "a"));
+    v.push_back(pair<int, string>(79, "b"));
+    v.push_back(pair<int, string>(80, "c"));
+    v.push_back(pair<int, string>(88, "d"));
+    v.push_back(pair<int, string>(92, "e"));
+    v.push_back(pair<int, string>(84, "f"));
+    v.push_back(pair<int, string>(97, "g"));
+    v.push_back(pair<int, string>(82, "h"));
+    v.push_back(pair<int, string>(90, "i"));
+    sort(v.begin(), v.end(),sort_rule);
+    for (int i = 0; i < v.size(); i++)
+    {
+        cout << v[i].first << ':' << v[i].second << endl;
+    }
+    return 0;
+}
+//////////////////////////////////////////////////////////////////////////
 // sort()를 이용하여 학생점수 오름차순으로 나열하기
 
 #include <iostream>
