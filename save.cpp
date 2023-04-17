@@ -1,86 +1,109 @@
 #include <iostream>
+#include <string>
 #include <vector>
 #include <queue>
 using namespace std;
+int N,M;
 
 struct DATA
 {
     int r;
     int c;
-    DATA(int r, int c)
+    int t;
+    DATA(int r,int c,int t)
     {
-        this->r = r;
-        this->c = c;
+        this->r=r;
+        this->c=c;
+        this->t=t;
     }
 };
-int N, M;
 
-vector<vector<bool>> check(10, vector<bool>(10, false));
-vector<bool> wall_check(999,false);
-queue<DATA> q;
+int DR[4]={1,-1,0,0};
+int DC[4]={0,0,1,-1};
 
-int DR[4] = {1, -1, 0, 0};
-int DC[4] = {0, 0, 1, -1};
-int ans = 999;
+int water_dist[51][51];
+int dist[51][51];
 
-void spread()
+bool no_graph(int r,int c)
 {
-    return;
-}
-
-void dfs(int dep, int k,vector<vector<int>> &MAP,vector<DATA> &zero)
-{
-    if (dep == 3)
-    {
-        spread();
-        for(int i=0;i<N;i++)
-        {
-            for(int j=0;j<M;j++)
-            {
-                cout<<MAP[i][j]<<" ";
-            }
-            cout<<endl;
-        }
-        return;
-    }
-    for(int i=k;i<zero.size();i++)
-    {
-        if(wall_check[i]==false)
-        {
-            wall_check[i]=true;
-            MAP[zero[i].r][zero[i].c]=1;
-            dfs(dep+1,k+1,MAP,zero);
-            wall_check[i]=false;
-            MAP[zero[i].r][zero[i].c]=0;
-        }
-    }
-
+    if(r<0||c<0||r>=N||c>=M)
+        return true;
+    return false;
 }
 
 int main()
 {
     freopen("Input.txt", "r", stdin);
-    cin >> N >> M;
-
-    vector<vector<int>> MAP(N, vector<int>(M, 0));
-    vector<DATA> zero;
-
-    for (int i = 0; i < N; i++)
+    cin>>N>>M;
+    vector<string> graph;
+    for(int i=0;i<N;i++)
     {
-        for (int j = 0; j < M; j++)
+        string temp_str;
+        cin>>temp_str;
+        graph.push_back(temp_str);
+    }
+
+    queue<DATA> q;
+    for(int i=0;i<N;i++)
+        for(int j=0;j<M;j++)
+            if(graph[i][j]=='*')
+                q.push(DATA(i,j,0));
+
+    for(int i=0;i<N;i++)
+        for(int j=0;j<M;j++)
+            if(graph[i][j]=='D')
+                q.push(DATA(i,j,1));
+
+    while(!q.empty())
+    {
+        int now_r = q.front().r;
+        int now_c = q.front().c;
+        int type = q.front().t;
+        q.pop();
+        if(type==0)//물
         {
-            cin >> MAP[i][j];
-            if (MAP[i][j] == 2)
+            for(int k=0;k<4;k++)
             {
-                q.push(DATA(i, j));
-                check[i][j] = true;
+                int move_r = now_r+DR[k];
+                int move_c = now_c+DC[k];
+                if(no_graph(move_r,move_c))
+                    continue;
+                if(graph[move_r][move_c]=='X'||graph[move_r][move_c]=='S')
+                    continue;
+                if(water_dist[move_r][move_c]!=0)
+                    continue;
+                q.push(DATA(move_r,move_c,type));
+                water_dist[move_r][move_c]=water_dist[now_r][now_c]+1;
             }
-            if(MAP[i][j]==0)
+        }
+        else if(type==1)
+        {
+        for(int k=0;k<4;k++)
             {
-                zero.push_back(DATA(i,j));
+                int move_r = now_r+DR[k];
+                int move_c = now_c+DC[k];
+                if(no_graph(move_r,move_c))
+                    continue;
+                if(graph[move_r][move_c]=='X')
+                    continue;
+                if(dist[move_r][move_c]!=0)
+                    continue;
+                
+                q.push(DATA(move_r,move_c,type));
+                dist[move_r][move_c]=dist[now_r][now_c]+1;
             }
         }
     }
+    #if 0
+    for(int i=0;i<N;i++)
+    {
+        for(int j=0;j<M;j++)
+        {
+            cout<<water_dist[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+    #endif
 
-    dfs(0, 0,MAP,zero);
+
 }
