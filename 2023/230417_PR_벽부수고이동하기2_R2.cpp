@@ -70,8 +70,8 @@ int main()
 
             if (graph[move_r][move_c] == 0 && dist[move_r][move_c][now_k] == 0)
             {
-            q.push(DATA(move_r, move_c, now_k));
-            dist[move_r][move_c][now_k] = dist[now_r][now_c][now_k] + 1;
+                q.push(DATA(move_r, move_c, now_k));
+                dist[move_r][move_c][now_k] = dist[now_r][now_c][now_k] + 1;
             }
 
             if (now_k < K)
