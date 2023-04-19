@@ -29,32 +29,15 @@ int main()
         }
 
         sort(apply_score_vec.begin(),apply_score_vec.end(),sort_rule);
-        // for(auto n:apply_score_vec)
-        //     cout<<n<<" ";
-        // cout<<endl;
 
         if(cnt_apply<cnt_max)
-        {
             ans_vec.push_back(1);
-        }
         else
-        {
             ans_vec.push_back(apply_score_vec[cnt_max-1]);
-        }
     }
-    #if 0
-    for(auto n:ans_vec){
-        cout<<n<<" ";
-    }
-    cout<<endl;
-    #endif
+
     sort(ans_vec.begin(),ans_vec.end());
-    #if 0
-    for(auto n:ans_vec){
-        cout<<n<<" ";
-    }
-    cout<<endl;
-    #endif
+
     int ans = 0;
     int ans_cnt = 0;
     for(int i=0;i<ans_vec.size();i++)
@@ -63,8 +46,6 @@ int main()
         if(ans>max_score)
             break;
         ans_cnt++;
-        
-
     }
     cout<<ans_cnt;
 }
