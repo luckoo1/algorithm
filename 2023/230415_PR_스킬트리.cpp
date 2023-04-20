@@ -1,3 +1,4 @@
+//그리디
 #include <string>
 #include <vector>
 #include <iostream>
