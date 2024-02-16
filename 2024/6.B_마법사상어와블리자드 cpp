@@ -1,0 +1,316 @@
+#include <queue>
+#include <vector>
+#include <algorithm>
+#include <iostream>
+using namespace std;
+
+int N,M,CR,CC;
+int grp[100][100];
+int one_cnt = 0;
+int two_cnt = 0;
+int thr_cnt = 0;
+int flag = 0;
+
+int dr[4] = {-1, 1, 0, 0};
+int dc[4] = {0, 0, -1, 1};
+int mr[4] = {0, 1, 0, -1};
+int mc[4] = {-1, 0, 1, 0};
+
+struct DATA
+{
+    int r,c;
+    DATA(int r,int c)
+    {
+        this->r = r;
+        this->c = c;
+    }
+};
+
+struct MAGIC{
+    int dir;
+    int many;
+    MAGIC(int dir, int many)
+    {
+        this->dir = dir;
+        this->many = many;
+    }
+};
+
+queue<MAGIC> q;
+
+vector<int> vec;
+vector<int> f_vec;
+   
+void at(int dir,int many)
+{
+    int move_r=CR;
+    int move_c=CC;
+    for(int i=0;i<many;i++)
+    {
+        move_r += dr[dir];
+        move_c += dc[dir];
+        grp[move_r][move_c] = 0;
+    }
+}
+
+void check_move()
+{
+    int r = CR;
+    int c = CC;
+    int dir = 0;
+
+    for (int i = 1; i < N; i++)
+    {
+        for (int j = 0; j < i; j++)
+        {
+            r = r + mr[dir];
+            c = c + mc[dir];
+            if(grp[r][c]!=0)
+            {
+                vec.push_back(grp[r][c]);
+            }
+        }
+        dir = (dir + 1) % 4;
+
+        for (int j = 0; j < i; j++)
+        {
+            r = r + mr[dir];
+            c = c + mc[dir];
+            if(grp[r][c]!=0)
+            {
+                vec.push_back(grp[r][c]);
+            }
+        }
+        dir = (dir + 1) % 4;
+
+    }
+
+    for (int i = 1; i < N; i++)
+    {
+        r = r + mr[dir];
+        c = c + mc[dir];
+        if(grp[r][c]!=0)
+        {
+            vec.push_back(grp[r][c]);
+        }
+    }
+    if(vec.size()==0)
+        flag = 1;
+
+}
+
+void bomb()
+{
+
+    vector<int> temp_vec;
+    while(1)
+    {
+        temp_vec.clear();
+        for (int i = 0; i < vec.size(); i++)
+        {
+            if (temp_vec.size() == 0)
+            {
+                temp_vec.push_back(vec[i]);
+                continue;
+            }
+
+            if (temp_vec[temp_vec.size() - 1] == vec[i])
+            {
+                temp_vec.push_back(vec[i]);
+                continue;
+            }
+
+            if (temp_vec[temp_vec.size() - 1] != vec[i])
+            {
+                if (temp_vec.size() >= 4)
+                {
+                    int num = temp_vec[0];
+                    int cnt = temp_vec.size();
+                    if(num == 1)
+                    {
+                        one_cnt = one_cnt + (num*cnt);
+                    }
+                    else if(num==2)
+                    {
+                        two_cnt = two_cnt + (num*cnt);
+                    }
+                    else if(num==3)
+                    {
+                        thr_cnt = thr_cnt + (num*cnt);
+                    }
+                    temp_vec.clear();
+
+
+                }
+                else
+                {
+                    for (int j = 0; j < temp_vec.size(); j++)
+                    {
+                        f_vec.push_back(temp_vec[j]);
+                    }
+                    temp_vec.clear();
+                }
+                temp_vec.push_back(vec[i]);
+            }
+        }
+        if(temp_vec.size()!=0)
+        {
+            for(int j=0;j<temp_vec.size();j++)
+                f_vec.push_back(temp_vec[j]);
+             if (temp_vec.size() >= 4)
+                {
+                    int num = temp_vec[0];
+                    int cnt = temp_vec.size();
+                    if(num == 1)
+                    {
+                        one_cnt = one_cnt + (num*cnt);
+                    }
+                    else if(num==2)
+                    {
+                        two_cnt = two_cnt + (num*cnt);
+                    }
+                    else if(num==3)
+                    {
+                        thr_cnt = thr_cnt + (num*cnt);
+                    }
+                }
+        }
+        temp_vec.clear();
+
+        if(vec.size()==f_vec.size())
+        {
+            break;
+        }
+        else
+        {
+            vec.clear();
+            for(int j =0;j<f_vec.size();j++)
+            {
+                vec.push_back(f_vec[j]);
+            }
+            f_vec.clear();
+        }
+    }
+
+}
+
+void make()
+{
+
+    vector<int> a;
+    vector<int> b;
+    int cnt = 1;
+    int num = f_vec[0];
+    for (int i = 1; i < f_vec.size(); i++)
+    {
+        if(num==f_vec[i])
+        {
+            cnt+=1;
+        }
+        else
+        {
+            a.push_back(cnt);
+            cnt = 1;
+            num = f_vec[i];
+        }
+    }
+    a.push_back(cnt);
+
+    b.push_back(f_vec[0]);
+    for (int i = 1; i < f_vec.size(); i++)
+    {
+        if(b[b.size()-1] == vec[i])
+            continue;
+        else
+        {
+            b.push_back(vec[i]);
+        }
+    }
+
+    vec.clear();
+    for(int i=0;i<a.size();i++)
+    {
+        vec.push_back(a[i]);
+        vec.push_back(b[i]);
+        if(vec.size()==(N*N)-1)
+            break;
+    }
+    for(int i=vec.size();i<N*N;i++)
+        vec.push_back(0);
+}
+
+void move()
+{
+    int r = CR;
+    int c = CC;
+    int dir = 0;
+
+    reverse(vec.begin(),vec.end());
+
+    for (int i = 1; i < N; i++)
+    {
+        for (int j = 0; j < i; j++)
+        {
+            r = r + mr[dir];
+            c = c + mc[dir];
+            grp[r][c]=vec[vec.size()-1];
+            vec.pop_back();
+        }
+        dir = (dir + 1) % 4;
+
+        for (int j = 0; j < i; j++)
+        {
+            r = r + mr[dir];
+            c = c + mc[dir];
+            grp[r][c]=vec[vec.size()-1];
+            vec.pop_back();
+        }
+        dir = (dir + 1) % 4;
+
+    }
+
+    for (int i = 1; i < N; i++)
+    {
+        r = r + mr[dir];
+        c = c + mc[dir];
+        grp[r][c]=vec[vec.size()-1];
+        vec.pop_back();
+    }
+}
+int main()
+{
+    //freopen("input.txt", "r", stdin);
+    cin>>N>>M;
+    CR = N/2;
+    CC = N/2;
+    for(int i=0;i<N;i++)
+    {
+        for(int j=0;j<N;j++)
+        {
+            cin>>grp[i][j];
+        }
+    }
+    for(int i=0;i<M;i++)
+    {
+        int dir,many;
+        cin>>dir>>many;
+        q.push(MAGIC(dir,many));
+    }
+    while(!q.empty())
+    {
+        int dir = (q.front().dir)-1; 
+        int many = q.front().many;
+        q.pop();
+        at(dir,many);
+        check_move();
+        if(flag ==1)
+            break;
+        bomb();
+        make();
+        move();
+        vec.clear();
+        f_vec.clear();
+    }
+
+    cout<<one_cnt+two_cnt+thr_cnt;
+}
