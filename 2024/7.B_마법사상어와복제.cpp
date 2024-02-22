@@ -1,6 +1,5 @@
 //1. 상어가가 있었던자리 또 갈수 있다. ex) 하하상,하상우
 //2. 갈곳없으면(예를들어 어딜가도 sum이 0) 상상상 sum=-1로 해결
-//3. max_dir초기화
 
 #include <vector>
 #include <algorithm>
@@ -81,7 +80,16 @@ void f_move()
     
 }
 
-void find_s_move(int dep, int r, int c, int temp_sum)
+void make_cnt_fish()
+{
+    for(int i=0;i<4;i++)
+        for(int j=0;j<4;j++)
+            cnt_f[i][j] = move_grp[i][j].size();
+
+}
+
+
+void find_shark_move(int dep, int r, int c, int temp_sum)
 {
     if (dir.size() == 3)
     {
@@ -111,7 +119,7 @@ void find_s_move(int dep, int r, int c, int temp_sum)
         temp_sum += cnt_f[mr][mc];
         cnt_f[mr][mc] = 0;
 
-        find_s_move(dep + 1, mr, mc, temp_sum);
+        find_shark_move(dep + 1, mr, mc, temp_sum);
 
         dir.pop_back();
         temp_sum -= tmep_cnt;
@@ -120,7 +128,7 @@ void find_s_move(int dep, int r, int c, int temp_sum)
     }
 }
 
-void sm_f()
+void smell_fish()
 {
     for (int i = 0; i < 4; i++)
     {
@@ -147,7 +155,7 @@ void sm_f()
     sc = c;
 }
 
-void copy()
+void copy_fish()
 {
     for (int i = 0; i < 4; i++)
     {
@@ -176,14 +184,6 @@ void clear_move_grp()
     }
 }
 
-void make_cnt_f()
-{
-    for(int i=0;i<4;i++)
-        for(int j=0;j<4;j++)
-            cnt_f[i][j] = move_grp[i][j].size();
-
-}
-
 int main()
 {
     cin >> N >> S;
@@ -201,12 +201,11 @@ int main()
     {
         f_move();
         sum=-1;
-        make_cnt_f();
-        find_s_move(0, sr, sc, 0);
-        sm_f();
-        copy();
+        make_cnt_fish();
+        find_shark_move(0, sr, sc, 0);
+        smell_fish();
+        copy_fish();
         clear_move_grp();
-        max_dir.clear();
     }
 
     int ans = 0;
