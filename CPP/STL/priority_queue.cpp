@@ -298,3 +298,31 @@ int main()
     priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> PQ;
     PQ.push(make_pair(1, 2));
 }
+
+////////////////////////////////////
+#include <queue>
+#include <algorithm>
+#include <string>
+#include <vector>
+#include <queue>
+#include <unordered_map>
+#include <iostream>
+using namespace std;
+
+vector<vector<int>> vec;
+unordered_map<int, vector<vector<int>>> hash_map;
+int ans = 999999999;
+
+
+
+auto cmp = [](vector<int> a, vector<int> b)
+{ return (a[0]) > (b[0]); };
+
+int main()
+{
+    priority_queue<vector<int>, vector<vector<int>>, decltype(cmp)> pq(cmp);
+
+    /*vector<int>를 vector<vector<int>>에 담을건데 cmp라는 규칙을 따른다는 뜻이다.*/
+}
+
+  
